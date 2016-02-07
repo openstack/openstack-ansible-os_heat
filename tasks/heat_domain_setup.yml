@@ -57,7 +57,7 @@
 - name: Ensure heat user
   shell: |
     . {{ ansible_env.HOME }}/openrc
-    {{ heat_bin }}/openstack \
+    {{ heat_bin }}/openstack {{ keystone_service_adminuri_insecure | bool | ternary('--insecure','') }}\
               --os-identity-api-version=3 \
               --os-auth-url={{ keystone_service_adminurl }} \
               --os-project-name={{ heat_project_name }} \
@@ -81,7 +81,7 @@
 - name: Assign admin role to heat domain admin user
   shell: |
     . {{ ansible_env.HOME }}/openrc
-    {{ heat_bin }}/openstack \
+    {{ heat_bin }}/openstack {{ keystone_service_adminuri_insecure | bool | ternary('--insecure','') }}\
               --os-identity-api-version=3 \
               --os-auth-url={{ keystone_service_adminurl }} \
               --os-project-name={{ heat_project_name }} \

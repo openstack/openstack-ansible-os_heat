@@ -153,6 +153,10 @@ heat_watch_server_url: "{{ heat_watch_server_uri }}"
 # heat_engine_workers: 4
 # heat_api_workers: 4
 
+# External SSL forwarding proto
+heat_ssl_external: true
+heat_secure_proxy_ssl_header: HTTP_X_FORWARDED_PROTO
+
 heat_service_in_ldap: false
 
 ## Plugin dirs
