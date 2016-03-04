@@ -54,6 +54,7 @@
     user_name: "{{ heat_service_user_name }}"
     tenant_name: "{{ heat_service_project_name }}"
     role_name: "{{ heat_stack_owner_name }}"
+    insecure: "{{ keystone_service_adminuri_insecure }}"
   register: add_service
   until: add_service|success
   retries: 5
@@ -72,6 +73,7 @@
     user_name: "{{ keystone_admin_user_name }}"
     tenant_name: "{{ keystone_admin_tenant_name }}"
     role_name: "{{ heat_stack_owner_name }}"
+    insecure: "{{ keystone_service_adminuri_insecure }}"
   register: add_service
   until: add_service|success
   retries: 5
