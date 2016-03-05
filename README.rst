@@ -1,11 +1,11 @@
-OpenStack heat
-##############
+OpenStack-Ansible Heat
+######################
 :tags: openstack, heat, cloud, ansible
 :category: \*nix
 
-Role to install heat api, cfn, cloudwatch, and engine.
+Ansible role to install OpenStack Heat.
 
-This role will install the following:
+This role will install:
     * heat-api
     * heat-api-cfn
     * heat-api-cloudwatch
