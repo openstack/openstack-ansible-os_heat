@@ -23,6 +23,14 @@ heat_ceilometer_enabled: False
 debug: False
 verbose: True
 
+heat_git_repo: https://git.openstack.org/openstack/heat
+heat_git_install_branch: master
+heat_requirements_git_repo: https://git.openstack.org/openstack/requirements
+heat_requirements_git_install_branch: master
+heat_developer_mode: false
+heat_developer_constraints:
+  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=heat"
+
 ## APT Cache options
 cache_timeout: 600
 

@@ -30,6 +30,43 @@
   tags:
     - heat-apt-packages
 
+- name: Create developer mode constraint file
+  copy:
+    dest: "/opt/developer-pip-constraints.txt"
+    content: |
+      {% for item in heat_developer_constraints %}
+      {{ item }}
+      {% endfor %}
+  when:
+    - heat_developer_mode | bool
+  tags:
+    - heat-install
+    - heat-pip-packages
+
+- name: Clone requirements git repository
+  git:
+    repo: "{{ heat_requirements_git_repo }}"
+    dest: "/opt/requirements"
+    clone: yes
+    update: yes
+    version: "{{ heat_requirements_git_install_branch }}"
+  when:
+    - heat_developer_mode | bool
+  tags:
+    - heat-install
+    - heat-pip-packages
+
+- name: Add constraints to pip_install_options fact for developer mode
+  set_fact:
+    pip_install_options: "{{ pip_install_options|default('') }} --constraint /opt/developer-pip-constraints.txt --constraint /opt/requirements/upper-constraints.txt"
+  when:
+    - heat_developer_mode | bool
+    - "'/opt/developer-pip-constraints.txt' not in pip_install_options|default('')"
+    - "'/opt/requirements/upper-constraints.txt' not in pip_install_options|default('')"
+  tags:
+    - heat-install
+    - heat-pip-packages
+
 - name: Install apt packages
   apt:
     pkg: "{{ item }}"
@@ -61,7 +98,9 @@
   stat:
     path: "/var/cache/{{ heat_venv_download_url | basename }}"
     get_md5: False
-  when: heat_venv_enabled | bool
+  when:
+    - not heat_developer_mode | bool
+    - heat_venv_enabled | bool
   register: local_venv_stat
   tags:
     - heat-install
@@ -71,7 +110,9 @@
   uri:
     url: "{{ heat_venv_download_url | replace('tgz', 'checksum') }}"
     return_content: True
-  when: heat_venv_enabled | bool
+  when:
+    - not heat_developer_mode | bool
+    - heat_venv_enabled | bool
   register: remote_venv_checksum
   tags:
     - heat-install
@@ -90,6 +131,7 @@
   ignore_errors: true
   register: get_venv
   when:
+    - not heat_developer_mode | bool
     - heat_venv_enabled | bool
     - (local_venv_stat.stat.exists == False or
         {{ local_venv_stat.stat.checksum is defined and local_venv_stat.stat.checksum != remote_venv_checksum.content | trim }})
@@ -121,6 +163,7 @@
     path: "{{ heat_venv_bin | dirname }}"
     state: directory
   when:
+    - not heat_developer_mode | bool
     - heat_venv_enabled | bool
     - heat_get_venv | changed
   tags:
@@ -133,6 +176,7 @@
     dest: "{{ heat_venv_bin | dirname }}"
     copy: "no"
   when:
+    - not heat_developer_mode | bool
     - heat_venv_enabled | bool
     - heat_get_venv | changed
   notify: Restart heat services
@@ -144,6 +188,7 @@
   command: >
     virtualenv-tools --update-path=auto {{ heat_venv_bin | dirname }}
   when:
+    - not heat_developer_mode | bool
     - heat_venv_enabled | bool
     - heat_get_venv | success
   tags:
@@ -164,7 +209,7 @@
   with_items: heat_pip_packages
   when:
     - heat_venv_enabled | bool
-    - heat_get_venv | failed
+    - heat_get_venv | failed or heat_developer_mode | bool
   notify: Restart heat services
   tags:
     - heat-install
@@ -180,7 +225,9 @@
   retries: 5
   delay: 2
   with_items: heat_pip_packages
-  when: not heat_venv_enabled | bool
+  when:
+    - not heat_developer_mode | bool
+    - not heat_venv_enabled | bool
   notify: Restart heat services
   tags:
     - heat-install
