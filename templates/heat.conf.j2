@@ -22,9 +22,6 @@ deferred_auth_method = {{ heat_deferred_auth_method }}
 trusts_delegated_roles = {{ heat_trusts_delegated_roles | join(',') }}
 
 auth_encryption_key = {{ heat_auth_encryption_key }}
-{% if heat_external_ssl | bool %}
-secure_proxy_ssl_header = {{ heat_secure_proxy_ssl_header }}
-{% endif %}
 
 num_engine_workers = {{ heat_engine_workers | default(api_threads) }}
 
