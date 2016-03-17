@@ -146,7 +146,6 @@
     rabbitmq_servers: 10.100.100.101
     rabbitmq_use_ssl: false
     rabbitmq_port: 5671
-    keystone_auth_admin_token: "SuperSecreteTestToken"
     keystone_auth_admin_password: "SuperSecretePassword"
     keystone_admin_user_name: admin
     keystone_admin_tenant_name: admin

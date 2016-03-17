@@ -49,8 +49,10 @@
 - name: Ensure stack_owner role
   keystone:
     command: "ensure_role"
-    token: "{{ keystone_auth_admin_token }}"
     endpoint: "{{ keystone_service_adminurl }}"
+    login_user: "{{ keystone_admin_user_name }}"
+    login_password: "{{ keystone_auth_admin_password }}"
+    login_project_name: "{{ keystone_admin_tenant_name }}"
     user_name: "{{ heat_service_user_name }}"
     tenant_name: "{{ heat_service_project_name }}"
     role_name: "{{ heat_stack_owner_name }}"
@@ -68,8 +70,10 @@
 - name: Ensure admin has stack_owner role
   keystone:
     command: ensure_user_role
-    token: "{{ keystone_auth_admin_token }}"
     endpoint: "{{ keystone_service_adminurl }}"
+    login_user: "{{ keystone_admin_user_name }}"
+    login_password: "{{ keystone_auth_admin_password }}"
+    login_project_name: "{{ keystone_admin_tenant_name }}"
     user_name: "{{ keystone_admin_user_name }}"
     tenant_name: "{{ keystone_admin_tenant_name }}"
     role_name: "{{ heat_stack_owner_name }}"
