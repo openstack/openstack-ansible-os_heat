@@ -31,12 +31,6 @@ rpc_backend = {{ heat_rpc_backend }}
 ## Plugin dirs
 plugin_dirs = {{ heat_plugin_dirs | join(',') }}
 
-# Ceilometer options
-{% if heat_ceilometer_enabled %}
-notification_driver = messagingv2
-{% endif %}
-
-
 [clients]
 endpoint_type = {{ heat_clients_endpoint }}
 
@@ -73,6 +67,12 @@ rabbit_virtual_host = {{ heat_rabbitmq_vhost }}
 rabbit_hosts = {{ rabbitmq_servers }}
 rabbit_use_ssl = {{ rabbitmq_use_ssl }}
 
+# Ceilometer options
+{% if heat_ceilometer_enabled %}
+[oslo_messaging_notifications]
+driver = messagingv2
+{% endif %}
+
 
 [profiler]
 profiler_enabled = {{ heat_profiler_enabled }}
@@ -81,7 +81,7 @@ trace_sqlalchemy = {{ heat_profiler_trace_sqlalchemy }}
 
 [keystone_authtoken]
 insecure = {{ keystone_service_internaluri_insecure | bool }}
-auth_plugin = {{ heat_keystone_auth_plugin }}
+auth_type = {{ heat_keystone_auth_plugin }}
 signing_dir = {{ heat_system_home_folder }}/cache/heat
 auth_url = {{ keystone_service_adminurl }}
 auth_uri = {{ keystone_service_internaluri }}
