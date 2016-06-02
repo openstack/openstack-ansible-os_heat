@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+## APT Cache options
+cache_timeout: 600
+
 heat_apt_packages:
   - rsync
   - libxslt1.1

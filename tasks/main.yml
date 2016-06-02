@@ -24,9 +24,22 @@
   tags:
     - always
 
+- name: Check init system
+  command: cat /proc/1/comm
+  register: _pid1_name
+  tags:
+    - always
+
+- name: Set the name of pid1
+  set_fact:
+    pid1_name: "{{ _pid1_name.stdout }}"
+  tags:
+    - always
+
 - include: heat_pre_install.yml
 - include: heat_install.yml
 - include: heat_post_install.yml
+- include: heat_init.yml
 
 - include: heat_domain_setup.yml
   when: >
@@ -39,8 +52,6 @@
 - include: heat_service_setup.yml
   when: >
     inventory_hostname == groups['heat_all'][0]
-
-- include: heat_upstart_init.yml
 
 - name: Flush handlers
   meta: flush_handlers

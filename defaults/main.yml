@@ -30,9 +30,6 @@ heat_developer_mode: false
 heat_developer_constraints:
   - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=heat"
 
-## APT Cache options
-cache_timeout: 600
-
 # Name of the virtual env to deploy into
 heat_venv_tag: untagged
 heat_venv_bin: "/openstack/venvs/heat-{{ heat_venv_tag }}/bin"

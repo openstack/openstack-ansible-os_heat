@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2016, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,27 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-galaxy_info:
-  author: rcbops
-  description: Installation and setup of heat
-  company: Rackspace
-  license: Apache2
-  min_ansible_version: 1.9
-  platforms:
-    - name: Ubuntu
-      versions:
-        - trusty
-        - xenial
-  categories:
-    - cloud
-    - python
-    - heat
-    - development
-    - openstack
-dependencies:
-  - pip_install
-  - role: apt_package_pinning
-    when:
-      - ansible_pkg_mgr == 'apt'
-  - galera_client
-  - openstack_openrc
+- include: heat_init_upstart.yml
+  when: pid1_name == "init"
+  tags:
+    - heat-init
+
+- include: heat_init_systemd.yml
+  when: pid1_name == "systemd"
+  tags:
+    - heat-init
+
+- name: Load service
+  service:
+   name: "{{ program_name }}"
+   enabled: "yes"
+  notify:
+    - Restart heat services

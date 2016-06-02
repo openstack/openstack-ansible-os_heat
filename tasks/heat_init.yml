@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: heat_upstart_common_init.yml
+- include: heat_init_common.yml
   vars:
     program_name: "{{ heat_service_program_name }}"
     service_name: "{{ heat_service_name }}"
@@ -23,7 +23,7 @@
   when: >
     inventory_hostname in groups['heat_api']
 
-- include: heat_upstart_common_init.yml
+- include: heat_init_common.yml
   vars:
     program_name: "{{ heat_cfn_service_program_name }}"
     service_name: "{{ heat_service_name }}"
@@ -33,7 +33,7 @@
   when: >
     inventory_hostname in groups['heat_api_cfn']
 
-- include: heat_upstart_common_init.yml
+- include: heat_init_common.yml
   vars:
     program_name: "{{ heat_cloudwatch_program_name }}"
     service_name: "{{ heat_service_name }}"
@@ -43,7 +43,7 @@
   when: >
     inventory_hostname in groups['heat_api_cloudwatch']
 
-- include: heat_upstart_common_init.yml
+- include: heat_init_common.yml
   vars:
     program_name: "{{ heat_engine_program_name }}"
     service_name: "{{ heat_service_name }}"

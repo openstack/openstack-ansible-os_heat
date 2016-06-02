@@ -13,27 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-galaxy_info:
-  author: rcbops
-  description: Installation and setup of heat
-  company: Rackspace
-  license: Apache2
-  min_ansible_version: 1.9
-  platforms:
-    - name: Ubuntu
-      versions:
-        - trusty
-        - xenial
-  categories:
-    - cloud
-    - python
-    - heat
-    - development
-    - openstack
-dependencies:
-  - pip_install
-  - role: apt_package_pinning
-    when:
-      - ansible_pkg_mgr == 'apt'
-  - galera_client
-  - openstack_openrc
+- name: Place the init script
+  template:
+    src: "heat-upstart-init.j2"
+    dest: "/etc/init/{{ program_name }}.conf"
+    mode: "0644"
+    owner: "root"
+    group: "root"
+  register: upstart_init
+  notify:
+    - Restart heat services
+
+- name: Reload init scripts
+  shell: |
+    initctl reload-configuration
+  when: upstart_init | changed
+  notify:
+    - Restart heat services
+
+- name: Load service
+  service:
+    name: "{{ program_name }}"
+    enabled: "yes"
+  notify:
+    - Restart heat services
