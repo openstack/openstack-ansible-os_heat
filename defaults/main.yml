@@ -203,6 +203,16 @@ heat_service_names:
   - heat-api-cloudwatch
   - heat-engine
 
+# Required secrets for the role
+heat_required_secrets:
+  - keystone_auth_admin_password
+  - heat_stack_domain_admin_password
+  - heat_auth_encryption_key
+  - heat_container_mysql_password
+  - heat_rabbitmq_password
+  - heat_service_password
+  - memcached_encryption_key
+
 ## Tunable overrides
 heat_heat_conf_overrides: {}
 heat_api_paste_ini_overrides: {}
