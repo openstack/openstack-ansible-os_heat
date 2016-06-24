@@ -84,7 +84,6 @@ heat_trusts_delegated_roles: []
 
 # osprofiler
 heat_profiler_enabled: false
-# heat_profiler_hmac_key is set in user_secrets.yml
 heat_profiler_trace_sqlalchemy: false
 
 ## Auth

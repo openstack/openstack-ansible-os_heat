@@ -157,11 +157,9 @@
     heat_developer_mode: true
     heat_git_install_branch: master
     heat_requirements_git_install_branch: master
-    heat_profiler_hmac_key: "secrete"
     heat_service_password: secrete
     heat_stack_domain_admin_password: secrete
     heat_auth_encryption_key: 32characterslongboguskeyvaluefoo
-    heat_cfn_service_password: "SuperSecrete"
     heat_container_mysql_password: "SuperSecrete"
     heat_galera_address: 10.100.100.101
     heat_galera_user: heat
