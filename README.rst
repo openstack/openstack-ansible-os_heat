@@ -1,7 +1,5 @@
 OpenStack-Ansible Heat
 ######################
-:tags: openstack, heat, cloud, ansible
-:category: \*nix
 
 Ansible role to install OpenStack Heat.
 
@@ -11,6 +9,37 @@ This role will install:
     * heat-api-cloudwatch
     * heat-engine
 
+=================
+
+.. literalinclude:: ../../defaults/main.yml
+   :language: yaml
+   :start-after: under the License.
+
+Required Variables
+==================
+
+To use this role, define the following variables:
+
+.. code-block:: yaml
+    # password of the keystone service user for heat
+    heat_service_password: "secrete"
+    # password of the admin user for the keystone heat domain
+    heat_stack_domain_admin_password: "secrete"
+    # key used for encrypting credentials stored in the heat db
+    heat_auth_encryption_key: "32characterslongboguskeyvaluefoo"
+    # password for heat database
+    heat_container_mysql_password: "secrete"
+    # password for heat RabbitMQ vhost
+    heat_rabbitmq_password: "secrete"
+    # comma-separated list of RabbitMQ hosts
+    rabbitmq_servers: 10.100.100.101
+    # Keystone admin user for service, domain, project, role creation
+    keystone_admin_user_name: "admin"
+    # Keystone admin password for service, domain, project, role creation
+    keystone_auth_admin_password: "secrete"
+
+Example Playbook
+================
 .. code-block:: yaml
 
     - name: Install heat server
