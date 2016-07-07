@@ -50,17 +50,6 @@
   tags:
     - heat-dirs
 
-- name: Create heat venv dir
-  file:
-    path: "{{ item.path }}"
-    state: directory
-  with_items:
-    - { path: "/openstack/venvs" }
-    - { path: "{{ heat_venv_bin }}" }
-  when: heat_venv_enabled | bool
-  tags:
-    - heat-dirs
-
 - name: Create heat plugin dirs
   file:
     path: "{{ item }}"
