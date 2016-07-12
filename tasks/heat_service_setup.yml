@@ -21,8 +21,6 @@
     service_publicurl: "{{ heat_service_publicurl }}"
     service_internalurl: "{{ heat_service_internalurl }}"
     service_adminurl: "{{ heat_service_adminurl }}"
-  tags:
-    - heat-api
 
 - include: heat_service_add.yml
   vars:
@@ -32,9 +30,6 @@
     service_publicurl: "{{ heat_cfn_service_publicurl }}"
     service_internalurl: "{{ heat_cfn_service_internalurl }}"
     service_adminurl: "{{ heat_cfn_service_adminurl }}"
-  tags:
-    - heat-api
-    - heat-api-cfn
 
 # We add the keystone role used by heat to delegate to the heat service user
 # (for performing deferred operations via trusts)
@@ -53,9 +48,6 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-api
-    - heat-api-cfn
 
 # Any user creating stacks needs to have the 'heat_stack_owner' role assigned,
 # we add to admin user here for testing purposes
@@ -74,6 +66,3 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-api
-    - heat-api-cfn

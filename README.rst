@@ -53,3 +53,12 @@ Example Playbook
         heat_galera_address: "{{ internal_lb_vip_address }}"
         keystone_admin_user_name: admin
         keystone_admin_tenant_name: admin
+
+Tags
+====
+
+This role supports two tags: ``heat-install`` and ``heat-config``
+
+The ``heat-install`` tag can be used to install and upgrade.
+
+The ``heat-config`` tag can be used to manage configuration.

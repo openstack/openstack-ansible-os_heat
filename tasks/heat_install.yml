@@ -16,8 +16,6 @@
 - include: install-apt.yml
   when:
     - ansible_pkg_mgr == 'apt'
-  tags:
-    - install-apt
 
 - name: Create developer mode constraint file
   copy:
@@ -28,9 +26,6 @@
       {% endfor %}
   when:
     - heat_developer_mode | bool
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Clone requirements git repository
   git:
@@ -41,27 +36,18 @@
     version: "{{ heat_requirements_git_install_branch }}"
   when:
     - heat_developer_mode | bool
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Add constraints to pip_install_options fact for developer mode
   set_fact:
     pip_install_options_fact: "{{ pip_install_options|default('') }} --constraint /opt/developer-pip-constraints.txt --constraint /opt/requirements/upper-constraints.txt"
   when:
     - heat_developer_mode | bool
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Set pip_install_options_fact when not in developer mode
   set_fact:
     pip_install_options_fact: "{{ pip_install_options|default('') }}"
   when:
     - not heat_developer_mode | bool
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Install requires pip packages
   pip:
@@ -73,9 +59,6 @@
   retries: 5
   delay: 2
   with_items: "{{ heat_requires_pip_packages }}"
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Get local venv checksum
   stat:
@@ -84,9 +67,6 @@
   when:
     - not heat_developer_mode | bool
   register: local_venv_stat
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Get remote venv checksum
   uri:
@@ -95,9 +75,6 @@
   when:
     - not heat_developer_mode | bool
   register: remote_venv_checksum
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 # TODO: When project moves to ansible 2 we can pass this a sha256sum which will:
 #       a) allow us to remove force: yes
@@ -115,16 +92,10 @@
     - not heat_developer_mode | bool
     - (local_venv_stat.stat.exists == False or
         {{ local_venv_stat.stat.checksum is defined and local_venv_stat.stat.checksum != remote_venv_checksum.content | trim }})
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Set heat get_venv fact
   set_fact:
     heat_get_venv: "{{ get_venv }}"
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Remove existing venv
   file:
@@ -132,18 +103,12 @@
     state: absent
   when:
     - heat_get_venv | changed
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Create heat venv dir
   file:
     path: "{{ heat_bin | dirname }}"
     state: directory
   register: heat_venv_dir
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Unarchive pre-built venv
   unarchive:
@@ -154,9 +119,6 @@
     - not heat_developer_mode | bool
     - heat_get_venv | changed or heat_venv_dir | changed
   notify: Restart heat services
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Install pip packages
   pip:
@@ -173,9 +135,6 @@
   when:
     - heat_get_venv | failed or heat_developer_mode | bool
   notify: Restart heat services
-  tags:
-    - heat-install
-    - heat-pip-packages
 
 - name: Update virtualenv path
   command: >
@@ -183,7 +142,3 @@
   when:
     - not heat_developer_mode | bool
     - heat_get_venv | success
-  tags:
-    - heat-install
-    - heat-pip-packages
-

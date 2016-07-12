@@ -18,8 +18,6 @@
     name: "{{ heat_system_group_name }}"
     state: "present"
     system: "yes"
-  tags:
-    - heat-group
 
 - name: Create the heat system user
   user:
@@ -30,8 +28,6 @@
     system: "yes"
     createhome: "yes"
     home: "/var/lib/{{ heat_system_user_name }}"
-  tags:
-    - heat-user
 
 - name: Create heat dir
   file:
@@ -47,8 +43,6 @@
     - { path: "/etc/heat/templates" }
     - { path: "/var/cache/heat", mode: "0700" }
     - { path: "{{ heat_system_home_folder }}" }
-  tags:
-    - heat-dirs
 
 - name: Create heat plugin dirs
   file:
@@ -57,8 +51,6 @@
     owner: "{{ heat_system_user_name }}"
     group: "{{ heat_system_group_name }}"
   with_items: "{{ heat_plugin_dirs }}"
-  tags:
-    - heat-dirs
 
 - name: Test for log directory or link
   shell: |
@@ -71,9 +63,6 @@
   register: log_dir
   failed_when: false
   changed_when: log_dir.rc != 0
-  tags:
-    - heat-dirs
-    - heat-logs
 
 - name: Create heat log dir
   file:
@@ -85,6 +74,3 @@
   with_items:
     - { path: "/var/log/heat" }
   when: log_dir.rc != 0
-  tags:
-    - heat-dirs
-    - heat-logs

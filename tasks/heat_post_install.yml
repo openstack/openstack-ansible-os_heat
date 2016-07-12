@@ -49,5 +49,3 @@
       config_type: "json"
   notify:
     - Restart heat services
-  tags:
-    - heat-config

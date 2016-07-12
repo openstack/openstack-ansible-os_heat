@@ -23,11 +23,6 @@
     login_project_name: "{{ keystone_admin_tenant_name }}"
     endpoint: "{{ keystone_service_adminurl }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
-  tags:
-    - heat-domain
-    - heat-domain-role
-    - heat-domain-setup
-    - heat-config
 
 - name: Ensure heat domain
   keystone:
@@ -38,10 +33,6 @@
     login_password: "{{ keystone_auth_admin_password }}"
     login_project_name: "{{ keystone_admin_tenant_name }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
-  tags:
-    - heat-domain
-    - heat-domain-setup
-    - heat-config
 
 - name: Ensure heat project
   keystone:
@@ -53,10 +44,6 @@
     login_password: "{{ keystone_auth_admin_password }}"
     login_project_name: "{{ keystone_admin_tenant_name }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
-  tags:
-    - heat-domain
-    - heat-domain-setup
-    - heat-config
 
 - name: Ensure heat user
   keystone:
@@ -73,11 +60,6 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-domain
-    - heat-domain-setup
-    - heat-config
-    - heat-command-bin
 
 - name: Ensure heat role
   keystone:
@@ -94,8 +76,3 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-domain
-    - heat-domain-setup
-    - heat-config
-    - heat-command-bin

@@ -29,10 +29,6 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-api-setup
-    - heat-service-add
-    - heat-setup
 
 # Create an admin user
 - name: Ensure heat user
@@ -51,10 +47,6 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-api-setup
-    - heat-service-add
-    - heat-setup
 
 # Add a role to the user
 - name: Ensure heat user to admin role
@@ -73,10 +65,6 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-api-setup
-    - heat-service-add
-    - heat-setup
 
 # Create an endpoint
 - name: Ensure heat endpoint
@@ -101,7 +89,3 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - heat-api-setup
-    - heat-service-add
-    - heat-setup
