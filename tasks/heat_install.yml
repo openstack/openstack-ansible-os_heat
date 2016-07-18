@@ -51,14 +51,13 @@
 
 - name: Install requires pip packages
   pip:
-    name: "{{ item }}"
+    name: "{{ heat_requires_pip_packages | join(' ') }}"
     state: latest
     extra_args: "{{ pip_install_options_fact }}"
   register: install_packages
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: "{{ heat_requires_pip_packages }}"
 
 - name: Get local venv checksum
   stat:
@@ -122,7 +121,7 @@
 
 - name: Install pip packages
   pip:
-    name: "{{ item }}"
+    name: "{{ heat_pip_packages | join(' ') }}"
     state: latest
     virtualenv: "{{ heat_bin | dirname }}"
     virtualenv_site_packages: "no"
@@ -131,7 +130,6 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: "{{ heat_pip_packages }}"
   when:
     - heat_get_venv | failed or heat_developer_mode | bool
   notify: Restart heat services
