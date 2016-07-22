@@ -26,7 +26,7 @@ num_engine_workers = {{ heat_engine_workers | default(api_threads) }}
 
 ## RPC Backend
 rpc_backend = {{ heat_rpc_backend }}
-transport_url = rabbit://{% for host in heat_rabbitmq_servers.split(',') %}{{ heat_rabbitmq_userid }}:{{ heat_rabbitmq_password }}@{{ host }}:{{ heat_rabbitmq_port }}/{{ heat_rabbitmq_vhost }}?rabbit_use_ssl={{ heat_rabbitmq_use_ssl }},{% endfor %}
+transport_url = rabbit://{% for host in heat_rabbitmq_servers.split(',') %}{{ heat_rabbitmq_userid }}:{{ heat_rabbitmq_password }}@{{ host }}:{{ heat_rabbitmq_port }}/{{ heat_rabbitmq_vhost }}?rabbit_use_ssl={{ heat_rabbitmq_use_ssl }}{% if not loop.last %},{% endif %}{% endfor %}
 
 ## Plugin dirs
 plugin_dirs = {{ heat_plugin_dirs | join(',') }}
@@ -59,12 +59,18 @@ bind_port = {{ heat_cfn_service_port }}
 bind_port = {{ heat_watch_port }}
 
 [oslo_messaging_rabbit]
+rabbit_port = {{ rabbitmq_port }}
+rabbit_userid = {{ heat_rabbitmq_userid }}
+rabbit_password = {{ heat_rabbitmq_password }}
+rabbit_virtual_host = {{ heat_rabbitmq_vhost }}
+rabbit_hosts = {{ rabbitmq_servers }}
+rabbit_use_ssl = {{ rabbitmq_use_ssl }}
 
 # Ceilometer options
 {% if heat_ceilometer_enabled %}
 [oslo_messaging_notifications]
 driver = messagingv2
-transport_url = rabbit://{% for host in heat_rabbitmq_telemetry_servers.split(',') %}{{ heat_rabbitmq_telemetry_userid }}:{{ heat_rabbitmq_telemetry_password }}@{{ host }}:{{ heat_rabbitmq_telemetry_port }}/{{ heat_rabbitmq_telemetry_vhost }}?rabbit_use_ssl={{ heat_rabbitmq_telemetry_use_ssl }},{% endfor %}
+transport_url = rabbit://{% for host in heat_rabbitmq_telemetry_servers.split(',') %}{{ heat_rabbitmq_telemetry_userid }}:{{ heat_rabbitmq_telemetry_password }}@{{ host }}:{{ heat_rabbitmq_telemetry_port }}/{{ heat_rabbitmq_telemetry_vhost }}?rabbit_use_ssl={{ heat_rabbitmq_telemetry_use_ssl }}{% if not loop.last %},{% endif %}{% endfor %}
 {% endif %}
 
 

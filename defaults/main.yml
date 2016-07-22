@@ -57,6 +57,7 @@ heat_rabbitmq_port: 5672
 
 ## Configuration for notifications communication, i.e. [oslo_messaging_notifications]
 heat_rabbitmq_telemetry_userid: "{{ heat_rabbitmq_userid }}"
+heat_rabbitmq_telemetry_password: "{{ heat_rabbitmq_password }}"
 heat_rabbitmq_telemetry_vhost: "{{ heat_rabbitmq_vhost }}"
 heat_rabbitmq_telemetry_port: "{{ heat_rabbitmq_port }}"
 heat_rabbitmq_telemetry_servers: "{{ heat_rabbitmq_servers }}"
