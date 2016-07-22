@@ -167,6 +167,9 @@
     galera_client_drop_config_file: false
     galera_root_user: "root"
     galera_root_password: "secrete"
+    heat_rabbitmq_servers: 10.100.100.101
+    heat_rabbitmq_use_ssl: false
+    heat_rabbitmq_port: 5671
     heat_rabbitmq_password: "secrete"
     heat_rabbitmq_userid: heat
     heat_rabbitmq_vhost: /heat

@@ -46,11 +46,22 @@ heat_galera_user: heat
 heat_galera_database: heat
 
 ## RabbitMQ info
+
+## Configuration for RPC communications
+heat_rpc_backend: heat.openstack.common.rpc.impl_kombu
 heat_rabbitmq_userid: heat
 heat_rabbitmq_vhost: /heat
+heat_rabbitmq_servers: 127.0.0.1
+heat_rabbitmq_use_ssl: False
+heat_rabbitmq_port: 5672
 
-## RPC
-heat_rpc_backend: heat.openstack.common.rpc.impl_kombu
+## Configuration for notifications communication, i.e. [oslo_messaging_notifications]
+heat_rabbitmq_telemetry_userid: "{{ heat_rabbitmq_userid }}"
+heat_rabbitmq_telemetry_vhost: "{{ heat_rabbitmq_vhost }}"
+heat_rabbitmq_telemetry_port: "{{ heat_rabbitmq_port }}"
+heat_rabbitmq_telemetry_servers: "{{ heat_rabbitmq_servers }}"
+heat_rabbitmq_telemetry_use_ssl: "{{ heat_rabbitmq_use_ssl }}"
+
 
 ## Heat User / Group
 heat_system_user_name: heat
