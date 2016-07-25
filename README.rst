@@ -21,6 +21,7 @@ Required Variables
 To use this role, define the following variables:
 
 .. code-block:: yaml
+
     # password of the keystone service user for heat
     heat_service_password: "secrete"
     # password of the admin user for the keystone heat domain
@@ -62,3 +63,4 @@ This role supports two tags: ``heat-install`` and ``heat-config``
 The ``heat-install`` tag can be used to install and upgrade.
 
 The ``heat-config`` tag can be used to manage configuration.
+
