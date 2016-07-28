@@ -31,6 +31,9 @@ transport_url = rabbit://{% for host in heat_rabbitmq_servers.split(',') %}{{ he
 ## Plugin dirs
 plugin_dirs = {{ heat_plugin_dirs | join(',') }}
 
+# Default region name used to get services endpoints.
+region_name_for_services = {{ heat_service_region }}
+
 [clients]
 endpoint_type = {{ heat_clients_endpoint }}
 
@@ -90,6 +93,7 @@ user_domain_id = {{ heat_service_user_domain_id }}
 project_name = {{ heat_service_project_name }}
 username = {{ heat_service_user_name }}
 password = {{ heat_service_password }}
+region_name = {{ keystone_service_region }}
 
 memcached_servers = {{ memcached_servers }}
 

@@ -185,6 +185,7 @@
     keystone_service_internalurl: "{{ keystone_service_internaluri }}/v3"
     keystone_service_adminuri: "http://{{ internal_lb_vip_address }}:35357"
     keystone_service_adminurl: "{{ keystone_service_adminuri }}/v3"
+    keystone_service_region: RegionOne
     openrc_os_password: "{{ keystone_auth_admin_password }}"
     openrc_os_domain_name: "Default"
     memcached_servers: 127.0.0.1
