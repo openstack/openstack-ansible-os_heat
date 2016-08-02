@@ -13,16 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Create heat TEMP dirs
+- name: Create heat TEMP run dir
   file:
-    path: "{{ item.path }}/{{ program_name }}"
+    path: "/var/run/{{ program_name }}"
     state: directory
     owner: "{{ system_user }}"
     group: "{{ system_group }}"
     mode: 02755
-  with_items:
-    - { path: "/var/run" }
-    - { path: "/var/lock" }
+  tags:
+    - systemd-init
+    - heat-init
+
+- name: Create heat TEMP lock dir
+  file:
+    path: "/var/lock/{{ program_name }}"
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_group }}"
+    mode: 02755
+  tags:
+    - systemd-init
+    - heat-init
 
 - name: Create tempfile.d entry
   template:
