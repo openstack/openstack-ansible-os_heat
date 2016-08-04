@@ -220,6 +220,12 @@ heat_required_secrets:
   - heat_service_password
   - memcached_encryption_key
 
+# This variable is used by the repo_build process to determine
+# which host group to check for members of before building the
+# pip packages required by this role. The value is picked up
+# by the py_pkgs lookup.
+heat_role_project_group: heat_all
+
 ## Tunable overrides
 heat_heat_conf_overrides: {}
 heat_api_paste_ini_overrides: {}
