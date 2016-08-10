@@ -1,2 +1,51 @@
 [all]
-localhost ansible_connection=local ansible_become=True
+localhost ansible_become=True
+infra1 ansible_host=10.100.100.2 ansible_become=True ansible_user=root
+openstack1 ansible_host=10.100.100.3 ansible_become=True ansible_user=root
+
+[all_containers]
+infra1
+openstack1
+
+[rabbitmq_all]
+infra1
+
+[galera_all]
+infra1
+
+[memcached_all]
+infra1
+
+[service_all:children]
+rabbitmq_all
+galera_all
+memcached_all
+
+[keystone_all]
+openstack1
+
+[heat_api]
+openstack1
+
+[heat_engine]
+openstack1
+
+[heat_api_cfn]
+openstack1
+
+[heat_api_cloudwatch]
+openstack1
+
+[heat_engine_container]
+openstack1
+
+[heat_apis_container]
+openstack1
+
+[heat_all:children]
+heat_api
+heat_engine
+heat_api_cfn
+heat_api_cloudwatch
+heat_engine_container
+heat_apis_container
