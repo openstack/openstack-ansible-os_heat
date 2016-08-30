@@ -16,6 +16,6 @@
 ## APT Cache options
 cache_timeout: 600
 
-heat_apt_packages:
+heat_distro_packages:
   - rsync
   - libxslt1.1
