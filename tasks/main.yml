@@ -62,20 +62,20 @@
     - heat-install
 
 - include: heat_domain_setup.yml
-  when: >
-    inventory_hostname == groups['heat_all'][0]
+  static: no
+  when: inventory_hostname == groups['heat_all'][0]
   tags:
     - heat-install
 
 - include: heat_db_setup.yml
-  when: >
-    inventory_hostname == groups['heat_all'][0]
+  static: no
+  when: inventory_hostname == groups['heat_all'][0]
   tags:
     - heat-install
 
 - include: heat_service_setup.yml
-  when: >
-    inventory_hostname == groups['heat_all'][0]
+  static: no
+  when: inventory_hostname == groups['heat_all'][0]
   tags:
     - heat-install
 
