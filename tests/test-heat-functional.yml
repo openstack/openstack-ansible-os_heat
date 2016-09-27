@@ -1,5 +1,5 @@
 ---
-# Copyright 2015, Rackspace US, Inc.
+# Copyright 2016, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,16 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Setup the host
-- include: common/test-setup-host.yml
+- name: Ensure heat APIs are reachable
+  hosts: heat_all
+  user: root
+  gather_facts: false
+  tasks:
+    - name: check heat api
+      uri:
+        url: "http://localhost:{{ item }}"
+        status_code: 300
+      register: result
+      until: result.status == 300
+      retries: 5
+      delay: 10
+      with_items:
+        - 8000
+        - 8003
+        - 8004
 
-# Install RabbitMQ/MariaDB
-- include: common/test-install-infra.yml
-
-# Install Keystone
-- include: common/test-install-keystone.yml
-
-# Install Heat
-- include: test-install-heat.yml
-
-- include: test-heat-functional.yml

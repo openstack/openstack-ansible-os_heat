@@ -63,4 +63,4 @@
     - role: "os_heat"
   vars_files:
     - common/test-vars.yml
-    - test-vars.yml
+
