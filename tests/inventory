@@ -21,6 +21,9 @@ rabbitmq_all
 galera_all
 memcached_all
 
+[utility_all]
+openstack1
+
 [keystone_all]
 openstack1
 
