@@ -27,7 +27,7 @@
     shell: "{{ heat_system_shell }}"
     system: "yes"
     createhome: "yes"
-    home: "/var/lib/{{ heat_system_user_name }}"
+    home: "{{ heat_system_home_folder }}"
 
 - name: Create heat dir
   file:

@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2015, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,10 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Reload systemd daemon
+  command: "systemctl daemon-reload"
+  notify:
+    - Restart heat services
+
+- name: Reload upstart init scripts
+  shell: |
+    initctl reload-configuration
+  notify:
+    - Restart heat services
+
 - name: Restart heat services
   service:
-    name: "{{ item }}"
-    state: restarted
-    pattern: "{{ item }}"
-  with_items: "{{ heat_service_names }}"
-  failed_when: false
+    name: "{{ item.value.service_name }}"
+    state: "restarted"
+    pattern: "{{ item.value.service_name }}"
+  with_dict: "{{ heat_services }}"
+  when: inventory_hostname in groups[item.value.group]
