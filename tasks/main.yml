@@ -57,7 +57,7 @@
     - heat-install
     - heat-config
 
-- include: heat_init.yml
+- include: heat_init_common.yml
   tags:
     - heat-install
 
