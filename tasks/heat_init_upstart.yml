@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2015, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,24 +16,11 @@
 - name: Place the init script
   template:
     src: "heat-upstart-init.j2"
-    dest: "/etc/init/{{ program_name }}.conf"
+    dest: "/etc/init/{{ item.value.service_name }}.conf"
     mode: "0644"
     owner: "root"
     group: "root"
-  register: upstart_init
+  with_dict: "{{ heat_services }}"
+  when: inventory_hostname in groups[item.value.group]
   notify:
-    - Restart heat services
-
-- name: Reload init scripts
-  shell: |
-    initctl reload-configuration
-  when: upstart_init | changed
-  notify:
-    - Restart heat services
-
-- name: Load service
-  service:
-    name: "{{ program_name }}"
-    enabled: "yes"
-  notify:
-    - Restart heat services
+    - Reload upstart init scripts
