@@ -86,7 +86,7 @@
     url: "{{ heat_venv_download_url }}"
     dest: "/var/cache/{{ heat_venv_download_url | basename }}"
     force: yes
-  ignore_errors: true
+  failed_when: false
   register: get_venv
   when:
     - not heat_developer_mode | bool
