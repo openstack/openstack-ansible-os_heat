@@ -106,7 +106,7 @@ check_revocations_for_cached = False
 
 [trustee]
 insecure = {{ keystone_service_internaluri_insecure | bool }}
-auth_plugin = {{ heat_keystone_trustee_auth_plugin }}
+auth_type = {{ heat_keystone_trustee_auth_plugin }}
 signing_dir = {{ heat_system_home_folder }}/cache/heat
 auth_url = {{ keystone_service_adminurl }}
 user_domain_id = {{ heat_service_trustee_user_domain_id }}

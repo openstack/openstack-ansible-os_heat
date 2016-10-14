@@ -109,7 +109,8 @@ heat_service_trustee_user_name: "heat"
 heat_service_trustee_password: "{{ heat_service_password }}"
 heat_service_trustee_project_domain_id: "default"
 heat_service_trustee_user_domain_id: "default"
-heat_keystone_trustee_auth_plugin: password
+heat_keystone_trustee_auth_plugin: "{{ heat_keystone_trustee_auth_type }}"
+heat_keystone_trustee_auth_type: password
 
 ## Heat api service type and data
 heat_service_name: heat
