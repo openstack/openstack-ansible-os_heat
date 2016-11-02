@@ -19,8 +19,7 @@
     - Restart heat services
 
 - name: Reload upstart init scripts
-  shell: |
-    initctl reload-configuration
+  command: initctl reload-configuration
   notify:
     - Restart heat services
 

@@ -17,3 +17,4 @@
   command: "{{ heat_bin }}/heat-manage db_sync"
   become: yes
   become_user: "{{ heat_system_user_name }}"
+  changed_when: false

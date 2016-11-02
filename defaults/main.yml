@@ -22,9 +22,10 @@ heat_ceilometer_enabled: False
 ## Verbosity Options
 debug: False
 
-# Set the package install state for distribution packages
+# Set the package install state for distribution and pip packages
 # Options are 'present' and 'latest'
 heat_package_state: "latest"
+heat_pip_package_state: "latest"
 
 heat_git_repo: https://git.openstack.org/openstack/heat
 heat_git_install_branch: master
