@@ -33,10 +33,10 @@
   with_dict: "{{ heat_services }}"
   when: inventory_hostname in groups[item.value.group]
 
-- name: Create tempfile.d entry
+- name: Create tmpfiles.d entry
   template:
-    src: "heat-systemd-tempfiles.j2"
-    dest: "/etc/tmpfiles.d/heat.conf"
+    src: "heat-systemd-tmpfiles.j2"
+    dest: "/etc/tmpfiles.d/{{ item.value.service_name }}.conf"
     mode: "0644"
     owner: "root"
     group: "root"
