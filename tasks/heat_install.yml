@@ -18,6 +18,11 @@
   when:
     - ansible_pkg_mgr == 'apt'
 
+- include: heat_install_yum.yml
+  static: no
+  when:
+    - ansible_pkg_mgr == 'yum'
+
 - name: Create developer mode constraint file
   copy:
     dest: "/opt/developer-pip-constraints.txt"
