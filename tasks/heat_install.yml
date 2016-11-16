@@ -88,7 +88,7 @@
 
 - name: Update virtualenv path
   command: >
-    virtualenv-tools --update-path=auto {{ heat_bin | dirname }}
+    virtualenv-tools --update-path=auto --reinitialize {{ heat_bin | dirname }}
   when:
     - not heat_developer_mode | bool
     - heat_get_venv | changed or heat_venv_dir | changed
