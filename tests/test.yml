@@ -23,6 +23,7 @@
 - include: common/test-install-keystone.yml
 
 # Install Heat
-- include: test-install-heat.yml
+- include: common/test-install-heat.yml
 
+# Test Heat
 - include: test-heat-functional.yml
