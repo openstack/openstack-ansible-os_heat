@@ -91,6 +91,15 @@
   when: heat_developer_mode | bool
   notify: Restart heat services
 
+- name: CentOS remove python from path first
+  file:
+    path:  "{{ heat_bin | dirname }}/bin/python2.7"
+    state: "absent"
+  when:
+    - ansible_pkg_mgr == 'yum'
+    - not heat_developer_mode | bool
+    - heat_get_venv | changed or heat_venv_dir | changed
+
 - name: Update virtualenv path
   command: >
     virtualenv-tools --update-path=auto --reinitialize {{ heat_bin | dirname }}
