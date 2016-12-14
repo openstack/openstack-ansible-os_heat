@@ -112,3 +112,9 @@ auth_url = {{ keystone_service_adminurl }}
 user_domain_id = {{ heat_service_trustee_user_domain_id }}
 username = {{ heat_service_trustee_user_name }}
 password = {{ heat_service_trustee_password }}
+
+[volumes]
+# Indicate if cinder-backup service is enabled. This is a temporary workaround
+# until cinder-backup service becomes discoverable, see LP#1334856. (boolean
+# value)
+backups_enabled = {{ heat_cinder_backups_enabled }}

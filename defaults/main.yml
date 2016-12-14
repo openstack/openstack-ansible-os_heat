@@ -88,6 +88,9 @@ heat_max_nested_stack_depth: 5
 heat_deferred_auth_method: trusts
 heat_trusts_delegated_roles: []
 
+## Cinder backups
+heat_cinder_backups_enabled: false
+
 # osprofiler
 heat_profiler_enabled: false
 heat_profiler_trace_sqlalchemy: false
