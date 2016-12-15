@@ -18,15 +18,9 @@
   notify:
     - Restart heat services
 
-- name: Reload upstart init scripts
-  command: initctl reload-configuration
-  notify:
-    - Restart heat services
-
 - name: Restart heat services
   service:
     name: "{{ item.value.service_name }}"
     state: "restarted"
-    pattern: "{{ item.value.service_name }}"
   with_dict: "{{ heat_services }}"
   when: inventory_hostname in groups[item.value.group]
