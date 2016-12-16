@@ -69,7 +69,7 @@
     login_password: "{{ keystone_auth_admin_password }}"
     login_project_name: "{{ keystone_admin_tenant_name }}"
     user_name: "{{ heat_stack_domain_admin }}"
-    role_name: "admin"
+    role_name: "{{ keystone_role_name | default('admin') }}"
     domain_name: "{{ heat_stack_user_domain_name }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
   register: add_service
