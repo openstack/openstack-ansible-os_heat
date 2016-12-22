@@ -31,6 +31,9 @@ To use this role, define the following variables:
     # Keystone admin password for service, domain, project, role creation
     keystone_auth_admin_password: "secrete"
 
+To clone or view the source code for this repository, visit the role repository
+for `os_heat <https://github.com/openstack/openstack-ansible-os_heat>`_.
+
 Default variables
 ~~~~~~~~~~~~~~~~~
 
