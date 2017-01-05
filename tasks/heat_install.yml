@@ -62,6 +62,7 @@
   file:
     path: "{{ heat_bin | dirname }}"
     state: directory
+    mode: "0755"
   register: heat_venv_dir
 
 - name: Unarchive pre-built venv
