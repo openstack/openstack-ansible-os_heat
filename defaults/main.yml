@@ -152,7 +152,8 @@ heat_metadata_server_url: "{{ heat_cfn_service_publicuri_proto }}://{{ external_
 ## Heat watch server
 heat_watch_proto: http
 heat_watch_port: 8003
-heat_watch_server_uri: "{{ heat_watch_proto }}://{{ external_lb_vip_address }}:{{ heat_watch_port }}"
+heat_watch_publicuri_proto: "{{ openstack_service_publicuri_proto | default(heat_watch_proto) }}"
+heat_watch_server_uri: "{{ heat_watch_publicuri_proto }}://{{ external_lb_vip_address }}:{{ heat_watch_port }}"
 heat_watch_server_url: "{{ heat_watch_server_uri }}"
 
 # If the following variables are unset in user_variables, the value set will be half the number of available VCPUs
