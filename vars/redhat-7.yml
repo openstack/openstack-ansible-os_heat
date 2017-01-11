@@ -16,4 +16,5 @@
 heat_distro_packages:
   - rsync
   - libxslt
+  - which
 
