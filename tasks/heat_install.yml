@@ -50,7 +50,7 @@
     dest: "/var/cache/{{ heat_venv_download_url | basename }}"
     checksum: "sha1:{{ lookup('url', heat_venv_download_url | replace('tgz', 'checksum')) }}"
   register: heat_get_venv
-  when: not heat_developer_mode | bool
+  when: heat_venv_download | bool
 
 - name: Remove existing venv
   file:
@@ -64,15 +64,14 @@
     state: directory
     mode: "0755"
   register: heat_venv_dir
+  when: heat_get_venv | changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ heat_venv_download_url | basename }}"
     dest: "{{ heat_bin | dirname }}"
     copy: "no"
-  when:
-    - not heat_developer_mode | bool
-    - heat_get_venv | changed or heat_venv_dir | changed
+  when: heat_get_venv | changed
   notify: Restart heat services
 
 - name: Install pip packages
@@ -89,7 +88,7 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  when: heat_developer_mode | bool
+  when: heat_get_venv | failed or heat_get_venv | skipped
   notify: Restart heat services
 
 - name: CentOS remove python from path first
@@ -98,12 +97,9 @@
     state: "absent"
   when:
     - ansible_pkg_mgr == 'yum'
-    - not heat_developer_mode | bool
-    - heat_get_venv | changed or heat_venv_dir | changed
+    - heat_get_venv | changed
 
 - name: Update virtualenv path
   command: >
     virtualenv-tools --update-path=auto --reinitialize {{ heat_bin | dirname }}
-  when:
-    - not heat_developer_mode | bool
-    - heat_get_venv | changed or heat_venv_dir | changed
+  when: heat_get_venv | changed

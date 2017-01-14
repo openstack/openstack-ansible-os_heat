@@ -37,6 +37,9 @@ heat_developer_constraints:
 heat_venv_tag: untagged
 heat_bin: "/openstack/venvs/heat-{{ heat_venv_tag }}/bin"
 
+# venv_download, even when true, will use the fallback method of building the
+# venv from scratch if the venv download fails.
+heat_venv_download: "{{ not heat_developer_mode | bool }}"
 heat_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/heat.tgz
 
 heat_fatal_deprecations: False
