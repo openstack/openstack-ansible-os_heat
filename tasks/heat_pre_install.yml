@@ -38,7 +38,7 @@
     mode: "{{ item.mode|default('0755') }}"
   with_items:
     - { path: "/openstack", mode: "0755", owner: "root", group: "root" }
-    - { path: "/etc/heat" }
+    - { path: "/etc/heat", mode: "0750" }
     - { path: "/etc/heat/environment.d" }
     - { path: "/etc/heat/templates" }
     - { path: "/var/cache/heat", mode: "0700" }
