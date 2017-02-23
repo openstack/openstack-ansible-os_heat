@@ -165,6 +165,10 @@ heat_watch_server_url: "{{ heat_watch_server_uri }}"
 # heat_engine_workers: 4
 # heat_api_workers: 4
 
+## Cap the maximum number of threads / workers when a user value is unspecified.
+heat_api_threads_max: 16
+heat_api_threads: "{{ [[ansible_processor_vcpus|default(2) // 2, 1] | max, heat_api_threads_max] | min }}"
+
 heat_service_in_ldap: false
 
 ## Plugin dirs
