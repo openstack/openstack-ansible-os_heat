@@ -36,6 +36,9 @@ plugin_dirs = {{ heat_plugin_dirs | join(',') }}
 # Default region name used to get services endpoints.
 region_name_for_services = {{ heat_service_region }}
 
+default_software_config_transport = POLL_SERVER_HEAT
+default_deployment_signal_transport = HEAT_SIGNAL
+
 [clients]
 endpoint_type = {{ heat_clients_endpoint }}
 
