@@ -208,20 +208,29 @@ heat_pip_packages:
   - python-troveclient
   - heat
 
+heat_api_init_overrides: {}
+heat_api_cfn_init_overrides: {}
+heat_api_cloudwatch_init_overrides: {}
+heat_engine_init_overrides: {}
+
 ## Service Name-Group Mapping
 heat_services:
   heat-api:
     group: heat_api
     service_name: heat-api
+    init_config_overrides: "{{ heat_api_init_overrides }}"
   heat-api-cfn:
     group: heat_api_cfn
     service_name: heat-api-cfn
+    init_config_overrides: "{{ heat_api_cfn_init_overrides }}"
   heat-api-cloudwatch:
     group: heat_api_cloudwatch
     service_name: heat-api-cloudwatch
+    init_config_overrides: "{{ heat_api_cloudwatch_init_overrides }}"
   heat-engine:
     group: heat_engine
     service_name: heat-engine
+    init_config_overrides: "{{ heat_engine_init_overrides }}"
 
 # Required secrets for the role
 heat_required_secrets:
