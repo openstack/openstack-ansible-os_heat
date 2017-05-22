@@ -92,3 +92,10 @@
   when:
     - not heat_developer_mode | bool
     - heat_get_venv | changed or heat_venv_dir | changed
+
+- name: Record the venv tag deployed
+  ini_file:
+    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
+    section: heat
+    option: venv_tag
+    value: "{{ heat_venv_tag }}"
