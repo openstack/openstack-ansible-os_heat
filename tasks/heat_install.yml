@@ -111,3 +111,10 @@
   command: >
     virtualenv-tools --update-path=auto --reinitialize {{ heat_bin | dirname }}
   when: heat_get_venv | changed
+
+- name: Record the venv tag deployed
+  ini_file:
+    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
+    section: heat
+    option: venv_tag
+    value: "{{ heat_venv_tag }}"
