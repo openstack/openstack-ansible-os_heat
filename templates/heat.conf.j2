@@ -64,7 +64,7 @@ bind_port = {{ heat_cfn_service_port }}
 bind_port = {{ heat_watch_port }}
 
 [oslo_messaging_rabbit]
-rabbit_use_ssl = {{ rabbitmq_use_ssl }}
+ssl = {{ rabbitmq_use_ssl }}
 
 {% if heat_service_publicuri_proto != heat_service_internaluri_proto %}
 [oslo_middleware]
