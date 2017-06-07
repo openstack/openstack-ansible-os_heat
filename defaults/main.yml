@@ -192,21 +192,21 @@ heat_requires_pip_packages:
 
 # Common pip packages
 heat_pip_packages:
+  - cryptography
+  - heat
   - keystonemiddleware
   - PyMySQL
-  - python-memcached
-  - pycrypto
   - python-ceilometerclient
   - python-cinderclient
   - python-glanceclient
   - python-heatclient
   - python-keystoneclient
+  - python-memcached
   - python-neutronclient
   - python-novaclient
   - python-openstackclient
   - python-swiftclient
   - python-troveclient
-  - heat
 
 heat_api_init_overrides: {}
 heat_api_cfn_init_overrides: {}
