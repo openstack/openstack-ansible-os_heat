@@ -80,7 +80,7 @@ transport_url = rabbit://{% for host in heat_rabbitmq_telemetry_servers.split(',
 
 
 [profiler]
-profiler_enabled = {{ heat_profiler_enabled }}
+enabled = {{ heat_profiler_enabled }}
 trace_sqlalchemy = {{ heat_profiler_trace_sqlalchemy }}
 
 
