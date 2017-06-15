@@ -89,7 +89,7 @@
     virtualenv: "{{ heat_bin | dirname }}"
     virtualenv_site_packages: "no"
     extra_args: >-
-      {{ keystone_developer_mode | ternary('--constraint /opt/developer-pip-constraints.txt', '') }}
+      {{ heat_developer_mode | ternary('--constraint /opt/developer-pip-constraints.txt', '') }}
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
