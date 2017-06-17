@@ -54,7 +54,6 @@ heat_galera_database: heat
 ## RabbitMQ info
 
 ## Configuration for RPC communications
-heat_rpc_backend: heat.openstack.common.rpc.impl_kombu
 heat_rabbitmq_userid: heat
 heat_rabbitmq_vhost: /heat
 heat_rabbitmq_servers: 127.0.0.1

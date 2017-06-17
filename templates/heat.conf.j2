@@ -24,7 +24,6 @@ auth_encryption_key = {{ heat_auth_encryption_key }}
 num_engine_workers = {{ heat_engine_workers | default(heat_api_threads) }}
 
 ## RPC Backend
-rpc_backend = {{ heat_rpc_backend }}
 transport_url = rabbit://{% for host in heat_rabbitmq_servers.split(',') %}{{ heat_rabbitmq_userid }}:{{ heat_rabbitmq_password }}@{{ host }}:{{ heat_rabbitmq_port }}{% if not loop.last %},{% else %}/{{ heat_rabbitmq_vhost }}{% endif %}{% endfor %}
 
 ## Plugin dirs
