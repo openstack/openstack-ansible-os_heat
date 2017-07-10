@@ -12,10 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 - name: Restart heat services
   systemd:
-    name: "{{ item.value.service_name }}"
+    name: "{{ item.service_name }}"
+    enabled: yes
     state: "restarted"
-    daemon_reload: yes
-  with_dict: "{{ heat_services }}"
-  when: inventory_hostname in groups[item.value.group]
+    daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
+  with_items: "{{ filtered_heat_services }}"
