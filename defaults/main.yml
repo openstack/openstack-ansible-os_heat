@@ -219,18 +219,22 @@ heat_services:
     group: heat_api
     service_name: heat-api
     init_config_overrides: "{{ heat_api_init_overrides }}"
+    start_order: 2
   heat-api-cfn:
     group: heat_api_cfn
     service_name: heat-api-cfn
     init_config_overrides: "{{ heat_api_cfn_init_overrides }}"
+    start_order: 3
   heat-api-cloudwatch:
     group: heat_api_cloudwatch
     service_name: heat-api-cloudwatch
     init_config_overrides: "{{ heat_api_cloudwatch_init_overrides }}"
+    start_order: 3
   heat-engine:
     group: heat_engine
     service_name: heat-engine
     init_config_overrides: "{{ heat_engine_init_overrides }}"
+    start_order: 1
 
 # Required secrets for the role
 heat_required_secrets:

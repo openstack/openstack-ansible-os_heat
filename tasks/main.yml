@@ -44,22 +44,28 @@
   tags:
     - heat-config
 
-- include: heat_init_common.yml
+- include: "heat_init_{{ ansible_service_mgr }}.yml"
   tags:
     - heat-config
 
 - include: heat_domain_setup.yml
-  when: inventory_hostname == groups['heat_all'][0]
+  static: no
+  when:
+    - "inventory_hostname == ansible_play_hosts[0]"
   tags:
     - heat-config
 
 - include: heat_db_setup.yml
-  when: inventory_hostname == groups['heat_all'][0]
+  static: no
+  when:
+    - "inventory_hostname == ansible_play_hosts[0]"
   tags:
     - heat-config
 
 - include: heat_service_setup.yml
-  when: inventory_hostname == groups['heat_all'][0]
+  static: no
+  when:
+    - "inventory_hostname == ansible_play_hosts[0]"
   tags:
     - heat-config
 
