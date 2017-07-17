@@ -1,6 +1,6 @@
-=================
-Table of Contents
-=================
+===============================
+Heat role for OpenStack-Ansible
+===============================
 
 .. toctree::
    :maxdepth: 2
