@@ -62,6 +62,10 @@
   tags:
     - heat-config
 
+- include: heat_uwsgi.yml
+  tags:
+    - heat-config
+
 - include: heat_service_setup.yml
   static: no
   when:

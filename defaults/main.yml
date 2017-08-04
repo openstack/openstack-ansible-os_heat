@@ -206,6 +206,7 @@ heat_pip_packages:
   - python-openstackclient
   - python-swiftclient
   - python-troveclient
+  - uwsgi
 
 heat_api_init_overrides: {}
 heat_api_cfn_init_overrides: {}
@@ -219,16 +220,37 @@ heat_services:
     service_name: heat-api
     init_config_overrides: "{{ heat_api_init_overrides }}"
     start_order: 2
+    wsgi_overrides: "{{ heat_api_uwsgi_ini_overrides }}"
+    wsgi_app: True
+    log_string: "--logto "
+    wsgi_name: heat-wsgi-api
+    uwsgi_port: "{{ heat_service_port }}"
+    uwsgi_bind_address: "{{ heat_api_uwsgi_bind_address }}"
+    program_override: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api.ini"
   heat-api-cfn:
     group: heat_api_cfn
     service_name: heat-api-cfn
     init_config_overrides: "{{ heat_api_cfn_init_overrides }}"
     start_order: 3
+    wsgi_overrides: "{{ heat_api_cfn_uwsgi_ini_overrides }}"
+    wsgi_app: True
+    log_string: "--logto "
+    wsgi_name: heat-wsgi-api-cfn
+    uwsgi_port: "{{ heat_cfn_service_port }}"
+    uwsgi_bind_address: "{{ heat_api_cfn_uwsgi_bind_address }}"
+    program_override: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api-cfn.ini"
   heat-api-cloudwatch:
     group: heat_api_cloudwatch
     service_name: heat-api-cloudwatch
     init_config_overrides: "{{ heat_api_cloudwatch_init_overrides }}"
     start_order: 3
+    wsgi_overrides: "{{ heat_api_cloudwatch_uwsgi_ini_overrides }}"
+    wsgi_app: True
+    log_string: "--logto "
+    wsgi_name: heat-wsgi-api-cloudwatch
+    uwsgi_port: "{{ heat_watch_port }}"
+    uwsgi_bind_address: "{{ heat_api_cloudwatch_uwsgi_bind_address }}"
+    program_override: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api-cloudwatch.ini"
   heat-engine:
     group: heat_engine
     service_name: heat-engine
@@ -244,6 +266,18 @@ heat_required_secrets:
   - heat_rabbitmq_password
   - heat_service_password
   - memcached_encryption_key
+
+# uWSGI Settings
+heat_api_uwsgi_ini_overrides: {}
+heat_api_cfn_uwsgi_ini_overrides: {}
+heat_api_cloudwatch_uwsgi_ini_overrides: {}
+heat_wsgi_processes_max: 16
+heat_wsgi_processes: "{{ [[ansible_processor_vcpus|default(1), 1] | max * 2, heat_wsgi_processes_max] | min }}"
+heat_wsgi_threads: 1
+heat_wsgi_buffer_size: 65535
+heat_api_uwsgi_bind_address: 0.0.0.0
+heat_api_cfn_uwsgi_bind_address: 0.0.0.0
+heat_api_cloudwatch_uwsgi_bind_address: 0.0.0.0
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the
