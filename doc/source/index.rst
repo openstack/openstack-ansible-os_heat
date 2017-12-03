@@ -7,8 +7,10 @@ Heat role for OpenStack-Ansible
 
    overview.rst
 
-Required Variables
-~~~~~~~~~~~~~~~~~~
+Dependencies
+~~~~~~~~~~~~
+
+This role needs pip >= 7.1 installed on the target host.
 
 To use this role, define the following variables:
 
