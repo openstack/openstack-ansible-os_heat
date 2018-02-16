@@ -12,7 +12,6 @@ stack_domain_admin_password = {{ heat_stack_domain_admin_password }}
 stack_domain_admin = {{ heat_stack_domain_admin }}
 stack_user_domain_name = {{ heat_stack_user_domain_name }}
 max_nested_stack_depth = {{ heat_max_nested_stack_depth }}
-heat_watch_server_url = {{ heat_watch_server_url }}
 heat_waitcondition_server_url = {{ heat_waitcondition_server_url }}
 heat_metadata_server_url = {{ heat_metadata_server_url }}
 
@@ -58,9 +57,6 @@ workers = {{ heat_api_workers | default(heat_api_threads) }}
 
 [heat_api_cfn]
 bind_port = {{ heat_cfn_service_port }}
-
-[heat_api_cloudwatch]
-bind_port = {{ heat_watch_port }}
 
 [oslo_messaging_rabbit]
 ssl = {{ heat_rabbitmq_use_ssl }}

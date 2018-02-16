@@ -36,9 +36,6 @@ openstack1
 [heat_api_cfn]
 openstack1
 
-[heat_api_cloudwatch]
-openstack1
-
 [heat_engine_container]
 openstack1
 
@@ -49,6 +46,5 @@ openstack1
 heat_api
 heat_engine
 heat_api_cfn
-heat_api_cloudwatch
 heat_engine_container
 heat_apis_container

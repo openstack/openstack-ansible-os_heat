@@ -155,13 +155,6 @@ heat_waitcondition_server_uri: "{{ heat_cfn_service_publicuri_proto }}://{{ exte
 heat_waitcondition_server_url: "{{ heat_waitcondition_server_uri }}/v1/waitcondition"
 heat_metadata_server_url: "{{ heat_cfn_service_publicuri_proto }}://{{ external_lb_vip_address }}:{{ heat_cfn_service_port }}"
 
-## Heat watch server
-heat_watch_proto: http
-heat_watch_port: 8003
-heat_watch_publicuri_proto: "{{ openstack_service_publicuri_proto | default(heat_watch_proto) }}"
-heat_watch_server_uri: "{{ heat_watch_publicuri_proto }}://{{ external_lb_vip_address }}:{{ heat_watch_port }}"
-heat_watch_server_url: "{{ heat_watch_server_uri }}"
-
 # If the following variables are unset in user_variables, the value set will be half the number of available VCPUs
 # heat_engine_workers: 4
 # heat_api_workers: 4
@@ -211,7 +204,6 @@ heat_pip_packages:
 
 heat_api_init_overrides: {}
 heat_api_cfn_init_overrides: {}
-heat_api_cloudwatch_init_overrides: {}
 heat_engine_init_overrides: {}
 
 ## Service Name-Group Mapping
@@ -240,18 +232,6 @@ heat_services:
     uwsgi_port: "{{ heat_cfn_service_port }}"
     uwsgi_bind_address: "{{ heat_api_cfn_uwsgi_bind_address }}"
     program_override: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api-cfn.ini"
-  heat-api-cloudwatch:
-    group: heat_api_cloudwatch
-    service_name: heat-api-cloudwatch
-    init_config_overrides: "{{ heat_api_cloudwatch_init_overrides }}"
-    start_order: 3
-    wsgi_overrides: "{{ heat_api_cloudwatch_uwsgi_ini_overrides }}"
-    wsgi_app: True
-    log_string: "--logto "
-    wsgi_name: heat-wsgi-api-cloudwatch
-    uwsgi_port: "{{ heat_watch_port }}"
-    uwsgi_bind_address: "{{ heat_api_cloudwatch_uwsgi_bind_address }}"
-    program_override: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api-cloudwatch.ini"
   heat-engine:
     group: heat_engine
     service_name: heat-engine
@@ -271,14 +251,12 @@ heat_required_secrets:
 # uWSGI Settings
 heat_api_uwsgi_ini_overrides: {}
 heat_api_cfn_uwsgi_ini_overrides: {}
-heat_api_cloudwatch_uwsgi_ini_overrides: {}
 heat_wsgi_processes_max: 16
 heat_wsgi_processes: "{{ [[ansible_processor_vcpus|default(1), 1] | max * 2, heat_wsgi_processes_max] | min }}"
 heat_wsgi_threads: 1
 heat_wsgi_buffer_size: 65535
 heat_api_uwsgi_bind_address: 0.0.0.0
 heat_api_cfn_uwsgi_bind_address: 0.0.0.0
-heat_api_cloudwatch_uwsgi_bind_address: 0.0.0.0
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the
@@ -290,6 +268,5 @@ heat_role_project_group: heat_all
 heat_heat_conf_overrides: {}
 heat_api_paste_ini_overrides: {}
 heat_default_yaml_overrides: {}
-heat_aws_cloudwatch_alarm_yaml_overrides: {}
 heat_aws_rds_dbinstance_yaml_overrides: {}
 heat_policy_overrides: {}
