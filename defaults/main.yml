@@ -215,11 +215,11 @@ heat_services:
     start_order: 2
     wsgi_overrides: "{{ heat_api_uwsgi_ini_overrides }}"
     wsgi_app: True
-    log_string: "--logto "
     wsgi_name: heat-wsgi-api
     uwsgi_port: "{{ heat_service_port }}"
     uwsgi_bind_address: "{{ heat_api_uwsgi_bind_address }}"
-    program_override: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api.ini"
+    execstarts: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api.ini"
+    execreloads: "{{ heat_bin }}/uwsgi --reload /var/run/heat-api/heat-api.pid"
   heat-api-cfn:
     group: heat_api_cfn
     service_name: heat-api-cfn
@@ -227,14 +227,15 @@ heat_services:
     start_order: 3
     wsgi_overrides: "{{ heat_api_cfn_uwsgi_ini_overrides }}"
     wsgi_app: True
-    log_string: "--logto "
     wsgi_name: heat-wsgi-api-cfn
     uwsgi_port: "{{ heat_cfn_service_port }}"
     uwsgi_bind_address: "{{ heat_api_cfn_uwsgi_bind_address }}"
-    program_override: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api-cfn.ini"
+    execstarts: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api-cfn.ini"
+    execreloads: "{{ heat_bin }}/uwsgi --reload /var/run/heat-api-cfn/heat-api-cfn.pid"
   heat-engine:
     group: heat_engine
     service_name: heat-engine
+    execstarts: "{{ heat_bin }}/heat-engine"
     init_config_overrides: "{{ heat_engine_init_overrides }}"
     start_order: 1
 
