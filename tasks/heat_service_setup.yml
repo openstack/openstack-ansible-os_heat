@@ -48,6 +48,7 @@
   until: add_service|success
   retries: 5
   delay: 10
+  no_log: True
 
 # Any user creating stacks needs to have the 'heat_stack_owner' role assigned,
 # we add to admin user here for testing purposes
@@ -66,3 +67,4 @@
   until: add_service|success
   retries: 5
   delay: 10
+  no_log: True
