@@ -56,23 +56,22 @@ heat_galera_database: heat
 heat_galera_use_ssl: "{{ galera_use_ssl | default(False) }}"
 heat_galera_ssl_ca_cert: "{{ galera_ssl_ca_cert | default('/etc/ssl/certs/galera-ca.pem') }}"
 
-## RabbitMQ info
+## Oslo Messaging Info
+# RPC
+heat_oslomsg_rpc_transport: rabbit
+heat_oslomsg_rpc_servers: 127.0.0.1
+heat_oslomsg_rpc_port: 5672
+heat_oslomsg_rpc_use_ssl: False
+heat_oslomsg_rpc_userid: heat
+heat_oslomsg_rpc_vhost: /heat
 
-## Configuration for RPC communications
-heat_rabbitmq_userid: heat
-heat_rabbitmq_vhost: /heat
-heat_rabbitmq_servers: 127.0.0.1
-heat_rabbitmq_use_ssl: False
-heat_rabbitmq_port: 5672
-
-## Configuration for notifications communication, i.e. [oslo_messaging_notifications]
-heat_rabbitmq_telemetry_userid: "{{ heat_rabbitmq_userid }}"
-heat_rabbitmq_telemetry_password: "{{ heat_rabbitmq_password }}"
-heat_rabbitmq_telemetry_vhost: "{{ heat_rabbitmq_vhost }}"
-heat_rabbitmq_telemetry_port: "{{ heat_rabbitmq_port }}"
-heat_rabbitmq_telemetry_servers: "{{ heat_rabbitmq_servers }}"
-heat_rabbitmq_telemetry_use_ssl: "{{ heat_rabbitmq_use_ssl }}"
-
+# Notify
+heat_oslomsg_notify_transport: rabbit
+heat_oslomsg_notify_servers: 127.0.0.1
+heat_oslomsg_notify_port: 5672
+heat_oslomsg_notify_use_ssl: False
+heat_oslomsg_notify_userid: heat
+heat_oslomsg_notify_vhost: /heat
 
 ## Heat User / Group
 heat_system_user_name: heat
