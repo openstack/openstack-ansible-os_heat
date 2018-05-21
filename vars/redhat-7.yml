@@ -18,3 +18,13 @@ heat_distro_packages:
   - libxslt
   - which
 
+heat_service_distro_packages:
+  - openstack-heat-agents
+  - openstack-heat-api
+  - openstack-heat-api-cfn
+  - openstack-heat-engine
+  - openstack-heat-ui
+  - uwsgi
+  - uwsgi-plugin-python
+
+heat_uwsgi_bin: '/usr/sbin'

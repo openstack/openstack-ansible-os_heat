@@ -27,6 +27,9 @@ debug: False
 heat_package_state: "latest"
 heat_pip_package_state: "latest"
 
+# Set installation method.
+heat_install_method: "source"
+
 heat_git_repo: https://git.openstack.org/openstack/heat
 heat_git_install_branch: master
 heat_developer_mode: false
@@ -35,7 +38,7 @@ heat_developer_constraints:
 
 # Name of the virtual env to deploy into
 heat_venv_tag: untagged
-heat_bin: "/openstack/venvs/heat-{{ heat_venv_tag }}/bin"
+heat_bin: "{{ _heat_bin }}"
 
 # venv_download, even when true, will use the fallback method of building the
 # venv from scratch if the venv download fails.
@@ -218,8 +221,8 @@ heat_services:
     wsgi_name: heat-wsgi-api
     uwsgi_port: "{{ heat_service_port }}"
     uwsgi_bind_address: "{{ heat_api_uwsgi_bind_address }}"
-    execstarts: "{{ heat_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api.ini"
-    execreloads: "{{ heat_bin }}/uwsgi --reload /var/run/heat-api/heat-api.pid"
+    execstarts: "{{ heat_uwsgi_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api.ini"
+    execreloads: "{{ heat_uwsgi_bin }}/uwsgi --reload /var/run/heat-api/heat-api.pid"
   heat-api-cfn:
     group: heat_api_cfn
     service_name: heat-api-cfn
@@ -230,12 +233,12 @@ heat_services:
     wsgi_name: heat-wsgi-api-cfn
     uwsgi_port: "{{ heat_cfn_service_port }}"
     uwsgi_bind_address: "{{ heat_api_cfn_uwsgi_bind_address }}"
-    execstarts: "{{ heat_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api-cfn.ini"
-    execreloads: "{{ heat_bin }}/uwsgi --reload /var/run/heat-api-cfn/heat-api-cfn.pid"
+    execstarts: "{{ heat_uwsgi_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api-cfn.ini"
+    execreloads: "{{ heat_uwsgi_bin }}/uwsgi --reload /var/run/heat-api-cfn/heat-api-cfn.pid"
   heat-engine:
     group: heat_engine
     service_name: heat-engine
-    execstarts: "{{ heat_bin }}/heat-engine"
+    execstarts: "{{ heat_uwsgi_bin }}/heat-engine"
     init_config_overrides: "{{ heat_engine_init_overrides }}"
     start_order: 1
 

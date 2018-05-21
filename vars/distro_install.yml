@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2018, SUSE LINUX GmbH.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,18 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-## APT Cache options
-cache_timeout: 600
+heat_package_list: "{{ heat_service_distro_packages }}"
 
-heat_distro_packages:
-  - rsync
-  - libxslt1.1
-
-heat_service_distro_packages:
-  - heat-api
-  - heat-api-cfn
-  - heat-engine
-  - uwsgi
-  - uwsgi-plugin-python
-
-heat_uwsgi_bin: '/usr/bin'
+heat_bin: "/usr/bin"
