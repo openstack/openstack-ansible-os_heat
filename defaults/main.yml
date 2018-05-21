@@ -218,7 +218,7 @@ heat_services:
     wsgi_name: heat-wsgi-api
     uwsgi_port: "{{ heat_service_port }}"
     uwsgi_bind_address: "{{ heat_api_uwsgi_bind_address }}"
-    execstarts: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api.ini"
+    execstarts: "{{ heat_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api.ini"
     execreloads: "{{ heat_bin }}/uwsgi --reload /var/run/heat-api/heat-api.pid"
   heat-api-cfn:
     group: heat_api_cfn
@@ -230,7 +230,7 @@ heat_services:
     wsgi_name: heat-wsgi-api-cfn
     uwsgi_port: "{{ heat_cfn_service_port }}"
     uwsgi_bind_address: "{{ heat_api_cfn_uwsgi_bind_address }}"
-    execstarts: "{{ heat_bin }}/uwsgi --ini /etc/uwsgi/heat-api-cfn.ini"
+    execstarts: "{{ heat_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api-cfn.ini"
     execreloads: "{{ heat_bin }}/uwsgi --reload /var/run/heat-api-cfn/heat-api-cfn.pid"
   heat-engine:
     group: heat_engine
