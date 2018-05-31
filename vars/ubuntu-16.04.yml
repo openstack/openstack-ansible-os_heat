@@ -17,6 +17,7 @@
 cache_timeout: 600
 
 heat_distro_packages:
+  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
   - rsync
   - libxslt1.1
 
