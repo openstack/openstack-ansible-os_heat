@@ -51,6 +51,8 @@ heat_clients_endpoint: internalURL
 heat_clients_heat_endpoint: publicURL
 
 ## Database info
+heat_db_setup_host: "{{ ('galera_all' in groups) | ternary(groups['galera_all'][0], 'localhost') }}"
+heat_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 heat_galera_user: heat
 heat_galera_database: heat
 heat_galera_use_ssl: "{{ galera_use_ssl | default(False) }}"
