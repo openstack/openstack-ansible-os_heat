@@ -14,6 +14,7 @@
 # limitations under the License.
 
 heat_distro_packages:
+  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
   - rsync
   - libxslt
   - which
