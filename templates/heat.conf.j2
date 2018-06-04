@@ -23,7 +23,7 @@ auth_encryption_key = {{ heat_auth_encryption_key }}
 num_engine_workers = {{ heat_engine_workers | default(heat_api_threads) }}
 
 ## RPC Backend
-transport_url = rabbit://{% for host in heat_rabbitmq_servers.split(',') %}{{ heat_rabbitmq_userid }}:{{ heat_rabbitmq_password }}@{{ host }}:{{ heat_rabbitmq_port }}{% if not loop.last %},{% else %}/{{ heat_rabbitmq_vhost }}{% endif %}{% endfor %}
+transport_url = {{ heat_oslomsg_rpc_transport }}://{% for host in heat_oslomsg_rpc_servers.split(',') %}{{ heat_oslomsg_rpc_userid }}:{{ heat_oslomsg_rpc_password }}@{{ host }}:{{ heat_oslomsg_rpc_port }}{% if not loop.last %},{% else %}/{{ heat_oslomsg_rpc_vhost }}{% if heat_oslomsg_rpc_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 ## Plugin dirs
 plugin_dirs = {{ heat_plugin_dirs | join(',') }}
@@ -70,7 +70,7 @@ enable_proxy_headers_parsing = True
 {% if heat_ceilometer_enabled %}
 [oslo_messaging_notifications]
 driver = messagingv2
-transport_url = rabbit://{% for host in heat_rabbitmq_telemetry_servers.split(',') %}{{ heat_rabbitmq_telemetry_userid }}:{{ heat_rabbitmq_telemetry_password }}@{{ host }}:{{ heat_rabbitmq_telemetry_port }}{% if not loop.last %},{% else %}/{{ heat_rabbitmq_telemetry_vhost }}{% endif %}{% endfor %}
+transport_url = {{ heat_oslomsg_notify_transport }}://{% for host in heat_oslomsg_notify_servers.split(',') %}{{ heat_oslomsg_notify_userid }}:{{ heat_oslomsg_notify_password }}@{{ host }}:{{ heat_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ heat_oslomsg_notify_vhost }}{% if heat_oslomsg_notify_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 {% endif %}
 
 
