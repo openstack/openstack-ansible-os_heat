@@ -193,7 +193,6 @@ heat_pip_packages:
   - keystonemiddleware
   - PyMySQL
   - python-ceilometerclient
-  - python-cinderclient
   - python-glanceclient
   - python-heatclient
   - python-keystoneclient
