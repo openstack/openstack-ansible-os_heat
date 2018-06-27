@@ -68,7 +68,7 @@
     systemd_group_name: "{{ heat_system_group_name }}"
     systemd_tempd_prefix: openstack
     systemd_slice_name: heat
-    system_lock_path: /var/lock/heat
+    systemd_lock_path: /var/lock/heat
     systemd_CPUAccounting: true
     systemd_BlockIOAccounting: true
     systemd_MemoryAccounting: true
