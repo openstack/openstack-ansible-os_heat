@@ -85,6 +85,7 @@
     loop_var: service_var
   tags:
     - heat-config
+    - systemd-service
 
 - include: heat_domain_setup.yml
   static: no
