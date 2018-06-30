@@ -191,6 +191,7 @@ heat_pip_packages:
   - cryptography
   - heat
   - keystonemiddleware
+  - osprofiler
   - PyMySQL
   - python-ceilometerclient
   - python-glanceclient
