@@ -22,6 +22,11 @@ heat_ceilometer_enabled: False
 ## Verbosity Options
 debug: False
 
+# Set the host which will execute the shade modules
+# for the service setup. The host must already have
+# clouds.yaml properly configured.
+heat_service_setup_host: "{{ openstack_service_setup_host | default('localhost') }}"
+
 # Set the package install state for distribution and pip packages
 # Options are 'present' and 'latest'
 heat_package_state: "latest"
@@ -180,11 +185,6 @@ heat_plugin_dirs:
 #heat_policy_overrides:
 #  "cloudformation:ListStacks": "rule:deny_stack_user"
 #  "cloudformation:CreateStack": "rule:deny_stack_user"
-
-# Heat packages that must be installed before anything else
-heat_requires_pip_packages:
-  - virtualenv
-  - httplib2
 
 # Common pip packages
 heat_pip_packages:

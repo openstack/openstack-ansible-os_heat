@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2016, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,58 +13,120 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: heat_service_add.yml
+# We set the python interpreter to the ansible runtime venv if
+# the delegation is to localhost so that we get access to the
+# appropriate python libraries in that venv. If the delegation
+# is to another host, we assume that it is accessible by the
+# system python instead.
+- name: Setup the service
+  delegate_to: "{{ heat_service_setup_host }}"
   vars:
-    service_name: "{{ heat_service_name }}"
-    service_type: "{{ heat_service_type }}"
-    service_description: "{{ heat_service_description }}"
-    service_publicurl: "{{ heat_service_publicurl }}"
-    service_internalurl: "{{ heat_service_internalurl }}"
-    service_adminurl: "{{ heat_service_adminurl }}"
+    ansible_python_interpreter: >-
+      {{ (heat_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable']) }}
+  block:
+    - name: Add service to the keystone service catalog
+      os_keystone_service:
+        cloud: default
+        state: present
+        name: "{{ item.name }}"
+        service_type: "{{ item.service_type }}"
+        description: "{{ item.description }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_service
+      until: add_service is success
+      retries: 5
+      delay: 10
+      with_items:
+        - name: "{{ heat_service_name }}"
+          service_type: "{{ heat_service_type }}"
+          description: "{{ heat_service_description }}"
+        - name: "{{ heat_cfn_service_name }}"
+          service_type: "{{ heat_cfn_service_type }}"
+          description: "{{ heat_cfn_service_description }}"
+      loop_control:
+        label: "{{ item.name }}"
 
-- include: heat_service_add.yml
-  vars:
-    service_name: "{{ heat_cfn_service_name }}"
-    service_type: "{{ heat_cfn_service_type }}"
-    service_description: "{{ heat_cfn_service_description }}"
-    service_publicurl: "{{ heat_cfn_service_publicurl }}"
-    service_internalurl: "{{ heat_cfn_service_internalurl }}"
-    service_adminurl: "{{ heat_cfn_service_adminurl }}"
+    - name: Add service user
+      os_user:
+        cloud: default
+        state: present
+        name: "{{ heat_service_user_name }}"
+        password: "{{ heat_service_password }}"
+        domain: default
+        default_project: "{{ heat_service_project_name }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_service
+      when: not heat_service_in_ldap | bool
+      until: add_service is success
+      retries: 5
+      delay: 10
+      no_log: True
 
-# We add the keystone role used by heat to delegate to the heat service user
-# (for performing deferred operations via trusts)
-- name: Ensure stack_owner role
-  keystone:
-    command: "ensure_role"
-    endpoint: "{{ keystone_service_adminurl }}"
-    login_user: "{{ keystone_admin_user_name }}"
-    login_password: "{{ keystone_auth_admin_password }}"
-    login_project_name: "{{ keystone_admin_tenant_name }}"
-    user_name: "{{ heat_service_user_name }}"
-    tenant_name: "{{ heat_service_project_name }}"
-    role_name: "{{ heat_stack_owner_name }}"
-    insecure: "{{ keystone_service_adminuri_insecure }}"
-  register: add_service
-  until: add_service|success
-  retries: 5
-  delay: 10
-  no_log: True
+    - name: Ensure stack_owner role
+      os_keystone_role:
+        cloud: default
+        state: present
+        name: "{{ heat_stack_owner_name }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_service
+      when: not heat_service_in_ldap | bool
+      until: add_service is success
+      retries: 5
+      delay: 10
 
-# Any user creating stacks needs to have the 'heat_stack_owner' role assigned,
-# we add to admin user here for testing purposes
-- name: Ensure admin has stack_owner role
-  keystone:
-    command: ensure_user_role
-    endpoint: "{{ keystone_service_adminurl }}"
-    login_user: "{{ keystone_admin_user_name }}"
-    login_password: "{{ keystone_auth_admin_password }}"
-    login_project_name: "{{ keystone_admin_tenant_name }}"
-    user_name: "{{ keystone_admin_user_name }}"
-    tenant_name: "{{ keystone_admin_tenant_name }}"
-    role_name: "{{ heat_stack_owner_name }}"
-    insecure: "{{ keystone_service_adminuri_insecure }}"
-  register: add_service
-  until: add_service|success
-  retries: 5
-  delay: 10
-  no_log: True
+    - name: Add service user to roles
+      os_user_role:
+        cloud: default
+        state: present
+        user: "{{ item.user }}"
+        role: "{{ item.role }}"
+        project: "{{ heat_service_project_name }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_service
+      when: not heat_service_in_ldap | bool
+      until: add_service is success
+      retries: 5
+      delay: 10
+      with_items:
+        - user: "{{ heat_service_user_name }}"
+          role: "{{ heat_service_role_name }}"
+        # We add the keystone role used by heat to delegate to the heat service user
+        # for performing deferred operations via trusts.
+        - user: "{{ heat_service_user_name }}"
+          role: "{{ heat_stack_owner_name }}"
+        # Any user creating stacks needs to have the 'heat_stack_owner' role assigned.
+        # We add to admin user here for testing purposes.
+        - user: "{{ keystone_admin_user_name }}"
+          role: "{{ heat_stack_owner_name }}"
+
+    - name: Add endpoints to keystone endpoint catalog
+      os_keystone_endpoint:
+        cloud: default
+        state: present
+        service: "{{ heat_service_name }}"
+        endpoint_interface: "{{ item.interface }}"
+        url: "{{ item.url }}"
+        region: "{{ heat_service_region }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_service
+      until: add_service is success
+      retries: 5
+      delay: 10
+      with_items:
+        - interface: "public"
+          url: "{{ heat_service_publicurl }}"
+        - interface: "internal"
+          url: "{{ heat_service_internalurl }}"
+        - interface: "admin"
+          url: "{{ heat_service_adminurl }}"
+        - interface: "public"
+          url: "{{ heat_cfn_service_publicurl }}"
+        - interface: "internal"
+          url: "{{ heat_cfn_service_internalurl }}"
+        - interface: "admin"
+          url: "{{ heat_cfn_service_adminurl }}"
