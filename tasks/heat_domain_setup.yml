@@ -60,7 +60,7 @@
     password: "{{ heat_stack_domain_admin_password }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
   register: add_service
-  until: add_service|success
+  until: add_service is success
   retries: 5
   delay: 10
   no_log: True
@@ -77,7 +77,7 @@
     domain_name: "{{ heat_stack_user_domain_name }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
   register: add_service
-  until: add_service|success
+  until: add_service is success
   retries: 5
   delay: 10
   no_log: True

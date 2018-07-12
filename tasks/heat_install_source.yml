@@ -41,7 +41,7 @@
   file:
     path: "{{ heat_bin | dirname }}"
     state: absent
-  when: heat_get_venv | changed
+  when: heat_get_venv  is changed
 
 - name: Create heat venv dir
   file:
@@ -49,14 +49,14 @@
     state: directory
     mode: "0755"
   register: heat_venv_dir
-  when: heat_get_venv | changed
+  when: heat_get_venv  is changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ heat_venv_download_url | basename }}"
     dest: "{{ heat_bin | dirname }}"
     copy: "no"
-  when: heat_get_venv | changed
+  when: heat_get_venv  is changed
   notify: Restart heat services
 
 - name: Install pip packages
@@ -70,7 +70,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
   when: heat_get_venv | failed or heat_get_venv | skipped
@@ -82,7 +82,7 @@
     state: "absent"
   when:
     - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
-    - heat_get_venv | changed
+    - heat_get_venv  is changed
 
 # NOTE(odyssey4me):
 # We reinitialize the venv to ensure that the right
@@ -100,7 +100,7 @@
         --no-pip \
         --no-setuptools \
         --no-wheel
-  when: heat_get_venv | changed
+  when: heat_get_venv  is changed
   tags:
     - skip_ansible_lint
 
