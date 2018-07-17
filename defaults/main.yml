@@ -65,18 +65,22 @@ heat_galera_ssl_ca_cert: "{{ galera_ssl_ca_cert | default('/etc/ssl/certs/galera
 
 ## Oslo Messaging Info
 # RPC
-heat_oslomsg_rpc_transport: rabbit
-heat_oslomsg_rpc_servers: 127.0.0.1
-heat_oslomsg_rpc_port: 5672
-heat_oslomsg_rpc_use_ssl: False
+heat_oslomsg_rpc_host_group: "{{ oslomsg_rpc_host_group | default('rabbitmq_all') }}"
+heat_oslomsg_rpc_setup_host: "{{ (heat_oslomsg_rpc_host_group in groups) | ternary(groups[heat_oslomsg_rpc_host_group][0], 'localhost') }}"
+heat_oslomsg_rpc_transport: "{{ oslomsg_rpc_transport | default('rabbit') }}"
+heat_oslomsg_rpc_servers: "{{ oslomsg_rpc_servers | default('127.0.0.1') }}"
+heat_oslomsg_rpc_port: "{{ oslomsg_rpc_port | default('5672') }}"
+heat_oslomsg_rpc_use_ssl: "{{ oslomsg_rpc_use_ssl | default(False) }}"
 heat_oslomsg_rpc_userid: heat
 heat_oslomsg_rpc_vhost: /heat
 
 # Notify
-heat_oslomsg_notify_transport: rabbit
-heat_oslomsg_notify_servers: 127.0.0.1
-heat_oslomsg_notify_port: 5672
-heat_oslomsg_notify_use_ssl: False
+heat_oslomsg_notify_host_group: "{{ oslomsg_notify_host_group | default('rabbitmq_all') }}"
+heat_oslomsg_notify_setup_host: "{{ (heat_oslomsg_notify_host_group in groups) | ternary(groups[heat_oslomsg_notify_host_group][0], 'localhost') }}"
+heat_oslomsg_notify_transport: "{{ oslomsg_notify_transport | default('rabbit') }}"
+heat_oslomsg_notify_servers: "{{ oslomsg_notify_servers | default('127.0.0.1') }}"
+heat_oslomsg_notify_port: "{{ oslomsg_notify_port | default('5672') }}"
+heat_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl | default(False) }}"
 heat_oslomsg_notify_userid: heat
 heat_oslomsg_notify_vhost: /heat
 
