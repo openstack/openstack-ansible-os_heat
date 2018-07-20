@@ -28,4 +28,9 @@ heat_service_distro_packages:
   - uwsgi
   - uwsgi-plugin-python
 
+heat_oslomsg_amqp1_distro_packages:
+  - cyrus-sasl-lib
+  - cyrus-sasl-plain
+  - cyrus-sasl-md5
+
 heat_uwsgi_bin: '/usr/sbin'

@@ -96,6 +96,10 @@ heat_oslomsg_notify_userid: "{{ heat_oslomsg_rpc_userid }}"
 heat_oslomsg_notify_password: "{{ heat_oslomsg_rpc_password }}"
 heat_oslomsg_notify_vhost: "{{ heat_oslomsg_rpc_vhost }}"
 
+## (Qdrouterd) integration
+# TODO(ansmith): Change structure when more backends will be supported
+heat_oslomsg_amqp1_enabled: "{{ heat_oslomsg_rpc_transport == 'amqp' }}"
+
 ## Heat User / Group
 heat_system_user_name: heat
 heat_system_group_name: heat
@@ -220,6 +224,9 @@ heat_pip_packages:
   - python-swiftclient
   - python-troveclient
   - uwsgi
+
+heat_optional_oslomsg_amqp1_pip_packages:
+  - oslo.messaging[amqp1]
 
 heat_api_init_overrides: {}
 heat_api_cfn_init_overrides: {}

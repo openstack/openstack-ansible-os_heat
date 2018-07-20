@@ -28,4 +28,8 @@ heat_service_distro_packages:
   - uwsgi
   - uwsgi-plugin-python
 
+heat_oslomsg_amqp1_distro_packages:
+  - libsasl2-modules
+  - sasl2-bin
+
 heat_uwsgi_bin: '/usr/bin'
