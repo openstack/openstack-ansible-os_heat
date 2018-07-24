@@ -47,15 +47,15 @@
   tags:
     - always
 
-- include: heat_pre_install.yml
+- include_tasks: heat_pre_install.yml
   tags:
     - heat-install
 
-- include: heat_install.yml
+- include_tasks: heat_install.yml
   tags:
     - heat-install
 
-- include: heat_post_install.yml
+- include_tasks: heat_post_install.yml
   tags:
     - heat-config
 
@@ -87,7 +87,7 @@
     - heat-config
     - systemd-service
 
-- include: heat_domain_setup.yml
+- include_tasks: heat_domain_setup.yml
   static: no
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
@@ -113,18 +113,18 @@
   tags:
     - heat-config
 
-- include: heat_db_setup.yml
+- include_tasks: heat_db_setup.yml
   static: no
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
   tags:
     - heat-config
 
-- include: heat_uwsgi.yml
+- include_tasks: heat_uwsgi.yml
   tags:
     - heat-config
 
-- include: heat_service_setup.yml
+- include_tasks: heat_service_setup.yml
   static: no
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
