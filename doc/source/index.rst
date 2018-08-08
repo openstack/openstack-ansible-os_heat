@@ -56,3 +56,19 @@ This role supports two tags: ``heat-install`` and
 ``heat-config``. The ``heat-install`` tag can be used to install
 and upgrade. The ``heat-config`` tag can be used to maintain the
 configuration of the service.
+
+Heat client endpoints
+~~~~~~~~~~~~~~~~~~~~~
+
+When your VMs need to talk to your API, you might have to change the Heat
+config. By default Heat is configured to use the internal API endpoints.
+Should instances or created containers need to access the API (e.g.
+Magnum, Heat Signaling) the public endpoints will need to be used as in
+the following example:
+
+.. code-block:: yaml
+
+    heat_heat_conf_overrides:
+      clients_keystone:
+        endpoint_type: publicURL
+        auth_uri: "{{ keystone_service_publicurl }}"
