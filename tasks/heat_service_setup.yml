@@ -107,7 +107,7 @@
       os_keystone_endpoint:
         cloud: default
         state: present
-        service: "{{ heat_service_name }}"
+        service: "{{ item.service }}"
         endpoint_interface: "{{ item.interface }}"
         url: "{{ item.url }}"
         region: "{{ heat_service_region }}"
@@ -120,13 +120,19 @@
       with_items:
         - interface: "public"
           url: "{{ heat_service_publicurl }}"
+          service: "{{ heat_service_name }}"
         - interface: "internal"
           url: "{{ heat_service_internalurl }}"
+          service: "{{ heat_service_name }}"
         - interface: "admin"
           url: "{{ heat_service_adminurl }}"
+          service: "{{ heat_service_name }}"
         - interface: "public"
           url: "{{ heat_cfn_service_publicurl }}"
+          service: "{{ heat_cfn_service_name }}"
         - interface: "internal"
           url: "{{ heat_cfn_service_internalurl }}"
+          service: "{{ heat_cfn_service_name }}"
         - interface: "admin"
           url: "{{ heat_cfn_service_adminurl }}"
+          service: "{{ heat_cfn_service_name }}"
