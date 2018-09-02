@@ -88,7 +88,6 @@
     - systemd-service
 
 - include_tasks: heat_domain_setup.yml
-  static: no
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
   tags:
@@ -115,7 +114,6 @@
     - heat-config
 
 - include_tasks: heat_db_setup.yml
-  static: no
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
   tags:
@@ -126,7 +124,6 @@
     - heat-config
 
 - include_tasks: heat_service_setup.yml
-  static: no
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
   tags:
