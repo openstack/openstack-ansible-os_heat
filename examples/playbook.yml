@@ -1,3 +1,4 @@
+---
 - name: Install heat server
   hosts: heat_all
   user: root
