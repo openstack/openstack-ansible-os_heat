@@ -108,7 +108,6 @@
     _oslomsg_notify_password: "{{ heat_oslomsg_notify_password }}"
     _oslomsg_notify_vhost: "{{ heat_oslomsg_notify_vhost }}"
     _oslomsg_notify_transport: "{{ heat_oslomsg_notify_transport }}"
-    _oslomsg_configure_notify: "{{ heat_ceilometer_enabled | bool }}"
   tags:
     - common-mq
     - heat-config

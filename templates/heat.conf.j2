@@ -67,11 +67,9 @@ enable_proxy_headers_parsing = True
 {% endif %}
 
 # Ceilometer options
-{% if heat_ceilometer_enabled %}
 [oslo_messaging_notifications]
-driver = messagingv2
+driver = {% if heat_ceilometer_enabled %}messagingv2{% else %}noop{% endif %}
 transport_url = {{ heat_oslomsg_notify_transport }}://{% for host in heat_oslomsg_notify_servers.split(',') %}{{ heat_oslomsg_notify_userid }}:{{ heat_oslomsg_notify_password }}@{{ host }}:{{ heat_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ heat_oslomsg_notify_vhost }}{% if heat_oslomsg_notify_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
-{% endif %}
 
 
 [profiler]
