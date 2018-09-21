@@ -87,13 +87,6 @@
     - heat-config
     - systemd-service
 
-- include: heat_domain_setup.yml
-  static: no
-  when:
-    - "inventory_hostname == ansible_play_hosts[0]"
-  tags:
-    - heat-config
-
 - import_tasks: mq_setup.yml
   when:
     - "heat_services['heat-api']['group'] in group_names"

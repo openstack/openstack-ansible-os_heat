@@ -47,14 +47,55 @@
       loop_control:
         label: "{{ item.name }}"
 
-    - name: Add service user
+    - name: Add owner/user roles
+      os_keystone_role:
+        cloud: default
+        state: present
+        name: "{{ item }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_service
+      when: not heat_service_in_ldap | bool
+      until: add_service is success
+      retries: 5
+      delay: 10
+      with_items:
+        - "{{ heat_stack_owner_name }}"
+        - "heat_stack_user"
+
+    - name: Add stack user domain
+      os_keystone_domain:
+        cloud: default
+        state: present
+        name: "{{ heat_stack_user_domain_name }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_stack_user_domain
+      until: add_stack_user_domain is success
+      retries: 5
+      delay: 10
+
+    - name: Add heat project
+      os_project:
+        cloud: default
+        state: present
+        name: "{{ heat_project_name }}"
+        domain_id: "{{ heat_project_domain_name }}"
+        endpoint_type: admin
+        verify: "{{ not keystone_service_adminuri_insecure }}"
+      register: add_project
+      until: add_project is success
+      retries: 5
+      delay: 10
+
+    - name: Add service/heat user
       os_user:
         cloud: default
         state: present
-        name: "{{ heat_service_user_name }}"
-        password: "{{ heat_service_password }}"
-        domain: default
-        default_project: "{{ heat_service_project_name }}"
+        name: "{{ item.name }}"
+        password: "{{ item.password }}"
+        domain: "{{ item.domain }}"
+        default_project: "{{ item.default_project }}"
         endpoint_type: admin
         verify: "{{ not keystone_service_adminuri_insecure }}"
       register: add_service
@@ -63,19 +104,15 @@
       retries: 5
       delay: 10
       no_log: True
-
-    - name: Ensure stack_owner role
-      os_keystone_role:
-        cloud: default
-        state: present
-        name: "{{ heat_stack_owner_name }}"
-        endpoint_type: admin
-        verify: "{{ not keystone_service_adminuri_insecure }}"
-      register: add_service
-      when: not heat_service_in_ldap | bool
-      until: add_service is success
-      retries: 5
-      delay: 10
+      with_items:
+        - name: "{{ heat_service_user_name }}"
+          password: "{{ heat_service_password }}"
+          domain: default
+          default_project: "{{ heat_service_project_name }}"
+        - name: "{{ heat_stack_domain_admin }}"
+          password: "{{ heat_stack_domain_admin_password }}"
+          domain: "{{ heat_stack_user_domain_name }}"
+          default_project: "{{ heat_project_name }}"
 
     - name: Add service user to roles
       os_user_role:
@@ -83,7 +120,7 @@
         state: present
         user: "{{ item.user }}"
         role: "{{ item.role }}"
-        project: "{{ heat_service_project_name }}"
+        project: "{{ item.project }}"
         endpoint_type: admin
         verify: "{{ not keystone_service_adminuri_insecure }}"
       register: add_service
@@ -94,14 +131,20 @@
       with_items:
         - user: "{{ heat_service_user_name }}"
           role: "{{ heat_service_role_name }}"
+          project: "{{ heat_service_project_name }}"
         # We add the keystone role used by heat to delegate to the heat service user
         # for performing deferred operations via trusts.
         - user: "{{ heat_service_user_name }}"
           role: "{{ heat_stack_owner_name }}"
+          project: "{{ heat_service_project_name }}"
         # Any user creating stacks needs to have the 'heat_stack_owner' role assigned.
         # We add to admin user here for testing purposes.
         - user: "{{ keystone_admin_user_name }}"
           role: "{{ heat_stack_owner_name }}"
+          project: "{{ heat_service_project_name }}"
+        - user: "{{ heat_stack_domain_admin }}"
+          role: "{{ keystone_role_name | default('admin') }}"
+          project: "{{ heat_project_name }}"
 
     - name: Add endpoints to keystone endpoint catalog
       os_keystone_endpoint:
