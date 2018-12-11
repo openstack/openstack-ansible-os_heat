@@ -43,13 +43,13 @@ endpoint_type = {{ heat_clients_heat_endpoint }}
 [clients_keystone]
 insecure = {{ keystone_service_internaluri_insecure | bool }}
 endpoint_type = {{ heat_clients_endpoint }}
-auth_uri = {{ keystone_service_internaluri }}
+auth_uri = {{ keystone_service_publicuri }}
 
 [database]
 connection = mysql+pymysql://{{ heat_galera_user }}:{{ heat_container_mysql_password }}@{{ heat_galera_address }}/{{ heat_galera_database }}?charset=utf8{% if heat_galera_use_ssl | bool %}&ssl_ca={{ heat_galera_ssl_ca_cert }}{% endif %}
 
 [ec2authtoken]
-auth_uri = {{ keystone_service_internalurl }}
+auth_uri = {{ keystone_service_publicuri }}
 
 [heat_api]
 bind_port = {{ heat_service_port }}
@@ -83,7 +83,7 @@ trace_sqlalchemy = {{ heat_profiler_trace_sqlalchemy }}
 insecure = {{ keystone_service_internaluri_insecure | bool }}
 auth_type = {{ heat_keystone_auth_plugin }}
 auth_url = {{ keystone_service_adminurl }}
-www_authenticate_uri = {{ keystone_service_internaluri }}
+www_authenticate_uri = {{ keystone_service_publicuri }}
 project_domain_id = {{ heat_service_project_domain_id }}
 user_domain_id = {{ heat_service_user_domain_id }}
 project_name = {{ heat_service_project_name }}
