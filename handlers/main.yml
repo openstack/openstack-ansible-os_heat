@@ -20,3 +20,11 @@
     state: "restarted"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
   with_items: "{{ filtered_heat_services }}"
+
+- name: Remove legacy policy.json file
+  file:
+    path: "/etc/heat/policy.json"
+    state: absent
+  when:
+    - heat_policy_overrides == {}
+  listen: Restart heat services

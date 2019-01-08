@@ -39,9 +39,12 @@
       dest: "/etc/heat/templates/AWS_RDS_DBInstance.yaml"
       config_overrides: "{{ heat_aws_rds_dbinstance_yaml_overrides }}"
       config_type: "yaml"
-    - src: "policy.json.j2"
-      dest: "/etc/heat/policy.json"
-      config_overrides: "{{ heat_policy_overrides }}"
-      config_type: "json"
   notify:
     - Restart heat services
+
+- name: Implement policy.json if there are overrides configured
+  copy:
+    content: "{{ heat_policy_overrides | to_nice_json }}"
+    dest: "/etc/heat/policy.json"
+  when:
+    - heat_policy_overrides != {}
