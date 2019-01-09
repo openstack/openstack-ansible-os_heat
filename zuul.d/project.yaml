@@ -19,3 +19,9 @@
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
       - openstack-ansible-role-distro_install-jobs
+    check:
+      jobs:
+        - openstack-ansible-deploy-aio_metal_heat-centos-7
+        - openstack-ansible-deploy-aio_metal_heat-opensuse-423
+        - openstack-ansible-deploy-aio_metal_heat-opensuse-150
+        - openstack-ansible-deploy-aio_metal_heat-ubuntu-bionic
