@@ -29,3 +29,34 @@ filtered_heat_services: |-
   {%   endif %}
   {% endfor %}
   {{ services | sort(attribute='start_order') }}
+
+heat_core_files:
+  - tmp_f: "/tmp/api-paste.ini"
+    target_f: "{{ (heat_install_method == 'distro' and ansible_os_family == 'RedHat') | ternary('/usr/share/heat', '/etc/heat') }}/api-paste.ini"
+    config_overrides: "{{ heat_api_paste_ini_overrides }}"
+    config_type: "ini"
+    condition: "{{ not ((heat_install_method == 'distro') and ((ansible_os_family | lower) == 'redhat')) }}"
+  - tmp_f: "/tmp/default.yaml"
+    target_f: "/etc/heat/environment.d/default.yaml"
+    config_overrides: "{{ heat_default_yaml_overrides }}"
+    config_type: "yaml"
+    owner: "root"
+    group: "{{ heat_system_group_name }}"
+    mode: "0640"
+    condition: true
+  - tmp_f: "/tmp/AWS_CloudWatch_Alarm.yaml"
+    target_f: "/etc/heat/templates/AWS_CloudWatch_Alarm.yaml"
+    config_overrides: "{{ heat_aws_cloudwatch_alarm_yaml_overrides }}"
+    config_type: "yaml"
+    owner: "root"
+    group: "{{ heat_system_group_name }}"
+    mode: "0640"
+    condition: true
+  - tmp_f: "/tmp/AWS_RDS_DBInstance.yaml"
+    target_f: "/etc/heat/templates/AWS_RDS_DBInstance.yaml"
+    config_overrides: "{{ heat_aws_rds_dbinstance_yaml_overrides }}"
+    config_type: "yaml"
+    owner: "root"
+    group: "{{ heat_system_group_name }}"
+    mode: "0640"
+    condition: true

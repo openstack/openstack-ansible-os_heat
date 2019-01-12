@@ -15,30 +15,13 @@
 
 - name: Drop heat Config(s)
   config_template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "heat.conf.j2"
+    dest: "/etc/heat/heat.conf"
     owner: "root"
     group: "{{ heat_system_group_name }}"
     mode: "0640"
-    config_overrides: "{{ item.config_overrides }}"
-    config_type: "{{ item.config_type }}"
-  with_items:
-    - src: "heat.conf.j2"
-      dest: "/etc/heat/heat.conf"
-      config_overrides: "{{ heat_heat_conf_overrides }}"
-      config_type: "ini"
-    - src: "api-paste.ini.j2"
-      dest: "/etc/heat/api-paste.ini"
-      config_overrides: "{{ heat_api_paste_ini_overrides }}"
-      config_type: "ini"
-    - src: "environment.d/default.yaml.j2"
-      dest: "/etc/heat/environment.d/default.yaml"
-      config_overrides: "{{ heat_default_yaml_overrides }}"
-      config_type: "yaml"
-    - src: "templates/AWS_RDS_DBInstance.yaml.j2"
-      dest: "/etc/heat/templates/AWS_RDS_DBInstance.yaml"
-      config_overrides: "{{ heat_aws_rds_dbinstance_yaml_overrides }}"
-      config_type: "yaml"
+    config_overrides: "{{ heat_heat_conf_overrides }}"
+    config_type: "ini"
   notify:
     - Restart heat services
 
@@ -48,3 +31,50 @@
     dest: "/etc/heat/policy.json"
   when:
     - heat_policy_overrides != {}
+
+# NOTE(cloudnull): This is using "cp" instead of copy with a remote_source
+#                  because we only want to copy the original files once. and we
+#                  don't want to need multiple tasks.
+- name: Preserve original configuration file(s)
+  command: "cp {{ item.target_f }} {{ item.target_f }}.original"
+  args:
+    creates: "{{ item.target_f }}.original"
+  when:
+    - item.condition | bool
+  with_items: "{{ heat_core_files }}"
+
+- name: Fetch override files
+  fetch:
+    src: "{{ item.target_f }}"
+    dest: "{{ item.tmp_f }}"
+    flat: yes
+  changed_when: false
+  run_once: true
+  when:
+    - item.condition | bool
+  with_items: "{{ heat_core_files }}"
+
+- name: Copy common config
+  config_template:
+    src: "{{ item.tmp_f }}"
+    dest: "{{ item.target_f }}"
+    owner: "root"
+    group: "{{ item.group | default(heat_system_group_name) }}"
+    mode: "0640"
+    config_overrides: "{{ item.config_overrides }}"
+    config_type: "{{ item.config_type }}"
+  when:
+    - item.condition | bool
+  with_items: "{{ heat_core_files }}"
+  notify:
+    - Restart heat services
+
+- name: Cleanup fetched temp files
+  file:
+    path: "{{ item.tmp_f }}"
+    state: absent
+  changed_when: false
+  delegate_to: localhost
+  when:
+    - item.condition | bool
+  with_items: "{{ heat_core_files }}"
