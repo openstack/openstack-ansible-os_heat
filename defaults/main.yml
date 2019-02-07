@@ -40,7 +40,7 @@ heat_git_repo: https://git.openstack.org/openstack/heat
 heat_git_install_branch: 'stable/rocky'
 heat_developer_mode: false
 heat_developer_constraints:
-  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=heat"
+  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=openstack-heat"
 
 # Name of the virtual env to deploy into
 heat_venv_tag: untagged
@@ -195,7 +195,7 @@ heat_plugin_dirs:
 # Common pip packages
 heat_pip_packages:
   - cryptography
-  - heat
+  - openstack-heat
   - keystonemiddleware
   - osprofiler
   - PyMySQL
