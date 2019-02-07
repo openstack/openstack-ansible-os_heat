@@ -40,7 +40,7 @@ heat_git_repo: https://git.openstack.org/openstack/heat
 heat_git_install_branch: master
 heat_developer_mode: false
 heat_developer_constraints:
-  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=heat"
+  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=openstack-heat"
 
 # TODO(odyssey4me):
 # This can be simplified once all the roles are using
@@ -210,7 +210,7 @@ heat_plugin_dirs:
 # Common pip packages
 heat_pip_packages:
   - cryptography
-  - heat
+  - openstack-heat
   - keystonemiddleware
   - osprofiler
   - PyMySQL

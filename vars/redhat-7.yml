@@ -17,6 +17,7 @@ heat_distro_packages:
   - rsync
   - libxslt
   - which
+  - openmpi-devel
 
 heat_service_distro_packages:
   - openstack-heat-agents
