@@ -43,7 +43,7 @@
     venv_install_distro_package_list: "{{ heat_distro_packages }}"
     venv_pip_install_args: "{{ heat_pip_install_args }}"
     venv_pip_packages: >-
-      {{ heat_pip_packages +
+      {{ heat_pip_packages | union(heat_user_pip_packages) +
          (heat_oslomsg_amqp1_enabled | bool) | ternary(heat_optional_oslomsg_amqp1_pip_packages, []) }}
     venv_facts_when_changed:
       - section: "heat"

@@ -226,6 +226,9 @@ heat_pip_packages:
   - python-troveclient
   - uwsgi
 
+# Specific pip packages provided by the user
+heat_user_pip_packages: []
+
 heat_optional_oslomsg_amqp1_pip_packages:
   - oslo.messaging[amqp1]
 
