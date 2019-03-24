@@ -22,12 +22,11 @@
     check:
       jobs:
         - openstack-ansible-deploy-aio_metal_heat-centos-7
-        - openstack-ansible-deploy-aio_metal_heat-opensuse-423
-        - openstack-ansible-deploy-aio_metal_heat-opensuse-150
         - openstack-ansible-deploy-aio_metal_heat-ubuntu-bionic
     gate:
       jobs:
         - openstack-ansible-deploy-aio_metal_heat-centos-7
-        - openstack-ansible-deploy-aio_metal_heat-opensuse-423
-        - openstack-ansible-deploy-aio_metal_heat-opensuse-150
         - openstack-ansible-deploy-aio_metal_heat-ubuntu-bionic
+    experimental:
+      jobs:
+        - openstack-ansible-deploy-aio_metal_heat-opensuse-150
