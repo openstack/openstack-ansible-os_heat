@@ -14,11 +14,10 @@
 
 - project:
     templates:
-      - openstack-ansible-role-jobs
       - check-requirements
+      - openstack-ansible-linters
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
-      - openstack-ansible-role-distro_install-jobs
     check:
       jobs:
         - openstack-ansible-deploy-aio_metal_heat-centos-7
@@ -29,4 +28,7 @@
         - openstack-ansible-deploy-aio_metal_heat-ubuntu-bionic
     experimental:
       jobs:
+        - openstack-ansible-deploy-aio_distro_metal_heat-centos-7
+        - openstack-ansible-deploy-aio_distro_metal_heat-opensuse-150
+        - openstack-ansible-deploy-aio_distro_metal_heat-ubuntu-bionic
         - openstack-ansible-deploy-aio_metal_heat-opensuse-150

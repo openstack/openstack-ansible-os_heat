@@ -21,6 +21,15 @@
       scenario: aio_metal_heat
 
 - job:
+    name: openstack-ansible-deploy-aio_distro_metal_heat-centos-7
+    parent: openstack-ansible-deploy-aio
+    nodeset: centos-7
+    vars:
+      action: deploy
+      scenario: aio_metal_heat
+      install_method: distro
+
+- job:
     name: openstack-ansible-deploy-aio_metal_heat-opensuse-150
     parent: openstack-ansible-deploy-aio
     nodeset: opensuse-150
@@ -29,9 +38,27 @@
       scenario: aio_metal_heat
 
 - job:
+    name: openstack-ansible-deploy-aio_distro_metal_heat-opensuse-150
+    parent: openstack-ansible-deploy-aio
+    nodeset: opensuse-150
+    vars:
+      action: deploy
+      scenario: aio_metal_heat
+      install_method: distro
+
+- job:
     name: openstack-ansible-deploy-aio_metal_heat-ubuntu-bionic
     parent: openstack-ansible-deploy-aio
     nodeset: ubuntu-bionic
     vars:
       action: deploy
       scenario: aio_metal_heat
+
+- job:
+    name: openstack-ansible-deploy-aio_distro_metal_heat-ubuntu-bionic
+    parent: openstack-ansible-deploy-aio
+    nodeset: ubuntu-bionic
+    vars:
+      action: deploy
+      scenario: aio_metal_heat
+      install_method: distro
