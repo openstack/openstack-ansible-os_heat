@@ -36,6 +36,19 @@
   retries: 5
   delay: 2
 
-- name: Install heat packages from PIP
-  include_tasks: heat_install_source.yml
+- name: Install the python venv
+  import_role:
+    name: "python_venv_build"
+  vars:
+    venv_build_constraints: "{{ heat_git_constraints }}"
+    venv_install_destination_path: "{{ heat_bin | dirname }}"
+    venv_install_distro_package_list: "{{ heat_distro_packages }}"
+    venv_pip_install_args: "{{ heat_pip_install_args }}"
+    venv_pip_packages: >-
+      {{ heat_pip_packages | union(heat_user_pip_packages) +
+         (heat_oslomsg_amqp1_enabled | bool) | ternary(heat_optional_oslomsg_amqp1_pip_packages, []) }}
+    venv_facts_when_changed:
+      - section: "heat"
+        option: "venv_tag"
+        value: "{{ heat_venv_tag }}"
   when: heat_install_method == 'source'
