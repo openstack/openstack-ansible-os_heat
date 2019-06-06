@@ -22,11 +22,9 @@ heat_distro_packages:
   - libopenmpi-dev
 
 heat_service_distro_packages:
-  - heat-api
-  - heat-api-cfn
-  - heat-engine
+  - python3-heat
   - uwsgi
-  - uwsgi-plugin-python
+  - uwsgi-plugin-python3
 
 heat_oslomsg_amqp1_distro_packages:
   - libsasl2-modules
