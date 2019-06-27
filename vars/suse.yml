@@ -15,9 +15,8 @@
 
 heat_distro_packages:
   - rsync
-  - libxslt
-  - which
-  - openmpi-devel
+  - libxslt1
+  - openmpi
 
 heat_service_distro_packages:
   - openstack-heat
@@ -25,7 +24,6 @@ heat_service_distro_packages:
   - openstack-heat-api-cfn
   - openstack-heat-engine
   - openstack-heat-templates
-  - uwsgi
   - uwsgi-python
 
 heat_oslomsg_amqp1_distro_packages:
