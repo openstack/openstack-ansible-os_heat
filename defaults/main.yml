@@ -211,6 +211,7 @@ heat_pip_packages:
   - python-openstackclient
   - python-swiftclient
   - python-troveclient
+  - systemd-python
   - uwsgi
 
 # Specific pip packages provided by the user

@@ -19,12 +19,16 @@ heat_distro_packages:
   - which
   - openmpi-devel
 
+heat_devel_distro_packages:
+  - systemd-devel
+
 heat_service_distro_packages:
   - openstack-heat-agents
   - openstack-heat-api
   - openstack-heat-api-cfn
   - openstack-heat-engine
   - openstack-heat-ui
+  - systemd-python
   - uwsgi
   - uwsgi-plugin-python
 

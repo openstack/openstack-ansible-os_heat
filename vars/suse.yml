@@ -18,12 +18,16 @@ heat_distro_packages:
   - libxslt1
   - openmpi
 
+heat_devel_distro_packages:
+  - systemd-devel
+
 heat_service_distro_packages:
   - openstack-heat
   - openstack-heat-api
   - openstack-heat-api-cfn
   - openstack-heat-engine
   - openstack-heat-templates
+  - python-systemd
   - uwsgi-python
 
 heat_oslomsg_amqp1_distro_packages:

@@ -93,26 +93,3 @@
     group: "{{ heat_system_group_name }}"
     mode: "{{ item.mode|default('0755') }}"
   with_items: "{{ heat_plugin_dirs }}"
-
-- name: Test for log directory or link
-  shell: |
-    if [ -h "/var/log/heat"  ]; then
-      chown -h {{ heat_system_user_name }}:{{ heat_system_group_name }} "/var/log/heat"
-      chown -R {{ heat_system_user_name }}:{{ heat_system_group_name }} "$(readlink /var/log/heat)"
-    else
-      exit 1
-    fi
-  register: log_dir
-  failed_when: false
-  changed_when: log_dir.rc != 0
-
-- name: Create heat log dir
-  file:
-    path: "{{ item.path }}"
-    state: directory
-    owner: "{{ item.owner|default(heat_system_user_name) }}"
-    group: "{{ item.group|default(heat_system_group_name) }}"
-    mode: "{{ item.mode|default('0755') }}"
-  with_items:
-    - { path: "/var/log/heat" }
-  when: log_dir.rc != 0

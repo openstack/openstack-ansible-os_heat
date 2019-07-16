@@ -6,7 +6,7 @@ use_stderr = False
 debug = {{ debug }}
 fatal_deprecations = {{ heat_fatal_deprecations }}
 
-log_file = /var/log/heat/heat.log
+use_journal = True
 
 stack_domain_admin_password = {{ heat_stack_domain_admin_password }}
 stack_domain_admin = {{ heat_stack_domain_admin }}
