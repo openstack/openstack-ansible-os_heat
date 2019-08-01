@@ -81,20 +81,20 @@
     - common-mq
     - heat-config
 
-- include_tasks: heat_pre_install.yml
+- import_tasks: heat_pre_install.yml
   tags:
     - heat-install
 
-- include_tasks: heat_install.yml
+- import_tasks: heat_install.yml
   tags:
     - heat-install
 
-- include_tasks: heat_post_install.yml
+- import_tasks: heat_post_install.yml
   tags:
     - heat-config
 
 - name: Run the systemd service role
-  include_role:
+  import_role:
     name: systemd_service
   vars:
     systemd_user_name: "{{ heat_system_user_name }}"
@@ -106,31 +106,22 @@
     systemd_BlockIOAccounting: true
     systemd_MemoryAccounting: true
     systemd_TasksAccounting: true
-    systemd_services:
-      - service_name: "{{ service_var.service_name }}"
-        enabled: yes
-        state: started
-        execstarts: "{{ service_var.execstarts }}"
-        execreloads: "{{ service_var.execreloads | default([]) }}"
-        config_overrides: "{{ service_var.init_config_overrides }}"
-  with_items: "{{ filtered_heat_services }}"
-  loop_control:
-    loop_var: service_var
+    systemd_services: "{{ filtered_heat_services }}"
   tags:
     - heat-config
     - systemd-service
 
-- include_tasks: heat_db_sync.yml
+- import_tasks: heat_db_sync.yml
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
   tags:
     - heat-config
 
-- include_tasks: heat_uwsgi.yml
+- import_tasks: heat_uwsgi.yml
   tags:
     - heat-config
 
-- include_tasks: heat_service_setup.yml
+- import_tasks: heat_service_setup.yml
   when:
     - "inventory_hostname == ansible_play_hosts[0]"
   tags:
