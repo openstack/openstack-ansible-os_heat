@@ -28,11 +28,8 @@ heat_service_distro_packages:
   - openstack-heat-engine
   - openstack-heat-templates
   - python-systemd
-  - uwsgi-python
 
 heat_oslomsg_amqp1_distro_packages:
   - cyrus-sasl
   - cyrus-sasl-plain
   - cyrus-sasl-digestmd5
-
-heat_uwsgi_bin: '/usr/sbin'

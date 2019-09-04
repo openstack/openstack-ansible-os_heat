@@ -117,9 +117,15 @@
   tags:
     - heat-config
 
-- import_tasks: heat_uwsgi.yml
+- name: Import uwsgi role
+  import_role:
+    name: uwsgi
+  vars:
+    uwsgi_services: "{{ heat_uwsgi_services }}"
+    uwsgi_install_method: "{{ heat_install_method }}"
   tags:
     - heat-config
+    - uwsgi
 
 - import_tasks: heat_service_setup.yml
   when:

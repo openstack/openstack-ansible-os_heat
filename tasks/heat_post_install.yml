@@ -67,6 +67,7 @@
     - item.condition | bool
   with_items: "{{ heat_core_files }}"
   notify:
+    - Restart uwsgi services
     - Restart heat services
 
 - name: Cleanup fetched temp files
