@@ -212,7 +212,6 @@ heat_pip_packages:
   - python-swiftclient
   - python-troveclient
   - systemd-python
-  - uwsgi
 
 # Specific pip packages provided by the user
 heat_user_pip_packages: []
@@ -231,29 +230,25 @@ heat_services:
     service_name: heat-api
     init_config_overrides: "{{ heat_api_init_overrides }}"
     start_order: 2
-    wsgi_overrides: "{{ heat_api_uwsgi_ini_overrides }}"
     wsgi_app: True
     wsgi_name: heat-wsgi-api
+    uwsgi_overrides: "{{ heat_api_uwsgi_ini_overrides }}"
     uwsgi_port: "{{ heat_service_port }}"
     uwsgi_bind_address: "{{ heat_api_uwsgi_bind_address }}"
-    execstarts: "{{ heat_uwsgi_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api.ini"
-    execreloads: "{{ heat_uwsgi_bin }}/uwsgi --reload /var/run/heat-api/heat-api.pid"
   heat-api-cfn:
     group: heat_api_cfn
     service_name: heat-api-cfn
     init_config_overrides: "{{ heat_api_cfn_init_overrides }}"
     start_order: 3
-    wsgi_overrides: "{{ heat_api_cfn_uwsgi_ini_overrides }}"
     wsgi_app: True
     wsgi_name: heat-wsgi-api-cfn
+    uwsgi_overrides: "{{ heat_api_cfn_uwsgi_ini_overrides }}"
     uwsgi_port: "{{ heat_cfn_service_port }}"
     uwsgi_bind_address: "{{ heat_api_cfn_uwsgi_bind_address }}"
-    execstarts: "{{ heat_uwsgi_bin }}/uwsgi --autoload --ini /etc/uwsgi/heat-api-cfn.ini"
-    execreloads: "{{ heat_uwsgi_bin }}/uwsgi --reload /var/run/heat-api-cfn/heat-api-cfn.pid"
   heat-engine:
     group: heat_engine
     service_name: heat-engine
-    execstarts: "{{ heat_uwsgi_bin }}/heat-engine"
+    execstarts: "{{ heat_bin }}/heat-engine"
     init_config_overrides: "{{ heat_engine_init_overrides }}"
     start_order: 1
 
@@ -273,7 +268,6 @@ heat_api_cfn_uwsgi_ini_overrides: {}
 heat_wsgi_processes_max: 16
 heat_wsgi_processes: "{{ [[ansible_processor_vcpus|default(1), 1] | max * 2, heat_wsgi_processes_max] | min }}"
 heat_wsgi_threads: 1
-heat_wsgi_buffer_size: 65535
 heat_api_uwsgi_bind_address: 0.0.0.0
 heat_api_cfn_uwsgi_bind_address: 0.0.0.0
 

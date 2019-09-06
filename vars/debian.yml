@@ -27,11 +27,7 @@ heat_devel_distro_packages:
 heat_service_distro_packages:
   - python3-heat
   - python3-systemd
-  - uwsgi
-  - uwsgi-plugin-python3
 
 heat_oslomsg_amqp1_distro_packages:
   - libsasl2-modules
   - sasl2-bin
-
-heat_uwsgi_bin: '/usr/bin'

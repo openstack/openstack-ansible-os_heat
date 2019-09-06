@@ -21,4 +21,3 @@ heat_package_list: |-
   {{ packages }}
 
 _heat_bin: "/openstack/venvs/heat-{{ heat_venv_tag }}/bin"
-heat_uwsgi_bin: "{{ _heat_bin }}"
