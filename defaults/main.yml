@@ -269,8 +269,8 @@ heat_api_cfn_uwsgi_ini_overrides: {}
 heat_wsgi_processes_max: 16
 heat_wsgi_processes: "{{ [[ansible_processor_vcpus|default(1), 1] | max * 2, heat_wsgi_processes_max] | min }}"
 heat_wsgi_threads: 1
-heat_api_uwsgi_bind_address: 0.0.0.0
-heat_api_cfn_uwsgi_bind_address: 0.0.0.0
+heat_api_uwsgi_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
+heat_api_cfn_uwsgi_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the
