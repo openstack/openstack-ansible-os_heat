@@ -31,6 +31,6 @@
     experimental:
       jobs:
         - openstack-ansible-deploy-aio_distro_metal_heat-centos-7
-        - openstack-ansible-deploy-aio_distro_metal_heat-opensuse-150
+        - openstack-ansible-deploy-aio_distro_metal_heat-opensuse-15
         - openstack-ansible-deploy-aio_distro_metal_heat-ubuntu-bionic
-        - openstack-ansible-deploy-aio_metal_heat-opensuse-150
+        - openstack-ansible-deploy-aio_metal_heat-opensuse-15
