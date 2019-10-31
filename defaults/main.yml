@@ -252,7 +252,7 @@ heat_services:
   heat-engine:
     group: heat_engine
     service_name: heat-engine
-    execstarts: "{{ heat_uwsgi_bin }}/heat-engine"
+    execstarts: "{{ heat_bin }}/heat-engine"
     init_config_overrides: "{{ heat_engine_init_overrides }}"
     start_order: 1
 
