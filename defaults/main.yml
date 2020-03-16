@@ -202,6 +202,7 @@ heat_pip_packages:
   - keystonemiddleware
   - osprofiler
   - PyMySQL
+  - pymemcache
   - python-ceilometerclient
   - python-glanceclient
   - python-heatclient
@@ -213,6 +214,9 @@ heat_pip_packages:
   - python-swiftclient
   - python-troveclient
   - systemd-python
+
+# Memcached override
+heat_memcached_servers: "{{ memcached_servers }}"
 
 # Specific pip packages provided by the user
 heat_user_pip_packages: []
