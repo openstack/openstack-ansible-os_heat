@@ -276,12 +276,6 @@ heat_wsgi_threads: 1
 heat_api_uwsgi_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
 heat_api_cfn_uwsgi_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
 
-# This variable is used by the repo_build process to determine
-# which host group to check for members of before building the
-# pip packages required by this role. The value is picked up
-# by the py_pkgs lookup.
-heat_role_project_group: heat_all
-
 ## Tunable overrides
 heat_heat_conf_overrides: {}
 heat_api_paste_ini_overrides: {}
