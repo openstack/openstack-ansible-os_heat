@@ -41,7 +41,7 @@
 - include_tasks: service_setup.yml
   vars:
     _project_name: "{{ heat_project_name }}"
-    _project_domain: "{{ add_stack_user_domain.id }}"
+    _project_domain: "{{ heat_project_domain_name }}"
     _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
     _service_in_ldap: "{{ heat_service_in_ldap }}"
     _service_setup_host: "{{ heat_service_setup_host }}"
@@ -67,7 +67,7 @@
       - name: "{{ heat_stack_domain_admin }}"
         password: "{{ heat_stack_domain_admin_password }}"
         domain: "{{ add_stack_user_domain.id }}"
-        project: "{{ heat_project_name }}"
+        project:
         role: "{{ keystone_role_name | default('admin') }}"
       - role: heat_stack_user
     _service_endpoints:
