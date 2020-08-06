@@ -19,27 +19,10 @@
 # is to another host, we assume that it is accessible by the
 # system python instead.
 
-# NOTE (noonedeadpunk) We can't move domain creation inside service_setup.yml
-# since for role assignment we need to provide ID of created domain instead of
-# domain name (which we have). This might be dropped right after backport of
-# https://github.com/ansible/ansible/commit/737da1853ef2239e27a2fe380c3e83ba5b34de5b
-- name: Setup the service
-  delegate_to: "{{ heat_service_setup_host }}"
-  vars:
-    ansible_python_interpreter: "{{ heat_service_setup_host_python_interpreter }}"
-  os_keystone_domain:
-    cloud: default
-    state: present
-    name: "{{ heat_stack_user_domain_name }}"
-    endpoint_type: admin
-    verify: "{{ not keystone_service_adminuri_insecure }}"
-  register: add_stack_user_domain
-  until: add_stack_user_domain is success
-  retries: 5
-  delay: 10
-
 - include_tasks: service_setup.yml
   vars:
+    _domain_name: "{{ heat_stack_user_domain_name }}"
+    _domain_name_description: "{{ heat_stack_domain_description }}"
     _project_name: "{{ heat_project_name }}"
     _project_domain: "{{ heat_project_domain_name }}"
     _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
@@ -66,7 +49,7 @@
         project: "{{ heat_service_project_name }}"
       - name: "{{ heat_stack_domain_admin }}"
         password: "{{ heat_stack_domain_admin_password }}"
-        domain: "{{ add_stack_user_domain.id }}"
+        domain: "{{ heat_stack_user_domain_name }}"
         project:
         role: "{{ keystone_role_name | default('admin') }}"
       - role: heat_stack_user
