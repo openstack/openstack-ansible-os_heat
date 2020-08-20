@@ -53,6 +53,9 @@
     - "inventory_hostname == ((groups[heat_services['heat-api']['group']]| intersect(ansible_play_hosts)) | list)[0]"
   vars:
     _oslodb_setup_host: "{{ heat_db_setup_host }}"
+    _oslodb_ansible_python_interpreter: "{{ heat_db_setup_python_interpreter }}"
+    _oslodb_setup_endpoint: "{{ heat_galera_address }}"
+    _oslodb_setup_port: "{{ heat_galera_port }}"
     _oslodb_databases:
       - name: "{{ heat_galera_database }}"
         users:
