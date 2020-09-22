@@ -49,9 +49,9 @@
     dest: "{{ item.tmp_f }}"
     flat: yes
   changed_when: false
+  run_once: true
   when:
     - item.condition | bool
-    - _heat_is_first_play_host
   with_items: "{{ heat_core_files }}"
 
 - name: Copy common config
