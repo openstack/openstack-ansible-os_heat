@@ -24,6 +24,7 @@
     config_type: "ini"
   notify:
     - Restart heat services
+    - Restart uwsgi services
 
 - name: Implement policy.json if there are overrides configured
   copy:
