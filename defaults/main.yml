@@ -181,7 +181,7 @@ heat_metadata_server_url: "{{ heat_cfn_service_publicuri_proto }}://{{ external_
 
 ## Cap the maximum number of threads / workers when a user value is unspecified.
 heat_api_threads_max: 16
-heat_api_threads: "{{ [[ansible_processor_vcpus|default(2) // 2, 1] | max, heat_api_threads_max] | min }}"
+heat_api_threads: "{{ [[(ansible_processor_vcpus//ansible_processor_threads_per_core)|default(1), 1] | max * 2, heat_api_threads_max] | min }}"
 
 heat_service_in_ldap: false
 
