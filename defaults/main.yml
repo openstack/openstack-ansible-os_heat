@@ -40,7 +40,6 @@ heat_git_repo: https://opendev.org/openstack/heat
 heat_git_install_branch: master
 heat_upper_constraints_url: "{{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}"
 heat_git_constraints:
-  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=openstack-heat"
   - "--constraint {{ heat_upper_constraints_url }}"
 
 heat_pip_install_args: "{{ pip_install_options | default('') }}"
@@ -199,7 +198,7 @@ heat_plugin_dirs:
 # Common pip packages
 heat_pip_packages:
   - cryptography
-  - openstack-heat
+  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=openstack-heat"
   - keystonemiddleware
   - osprofiler
   - PyMySQL
