@@ -34,7 +34,7 @@ heat_package_state: "{{ package_state | default('latest') }}"
 
 # Set installation method.
 heat_install_method: "{{ service_install_method | default('source') }}"
-heat_venv_python_executable: "{{ openstack_venv_python_executable | default('python2') }}"
+heat_venv_python_executable: "{{ openstack_venv_python_executable | default('python3') }}"
 
 heat_git_repo: https://opendev.org/openstack/heat
 heat_git_install_branch: master
