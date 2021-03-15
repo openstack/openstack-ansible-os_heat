@@ -18,7 +18,7 @@
     name: "{{ item.service_name }}"
     enabled: yes
     state: "restarted"
-    daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
+    daemon_reload: yes
   with_items: "{{ filtered_heat_services }}"
   listen:
     - "venv changed"

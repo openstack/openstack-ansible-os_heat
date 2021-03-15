@@ -65,10 +65,10 @@ heat_uwsgi_services: |-
 
 heat_core_files:
   - tmp_f: "/tmp/api-paste.ini"
-    target_f: "{{ (heat_install_method == 'distro' and ansible_os_family == 'RedHat') | ternary('/usr/share/heat', '/etc/heat') }}/api-paste.ini"
+    target_f: "{{ (heat_install_method == 'distro' and ansible_facts['os_family'] == 'RedHat') | ternary('/usr/share/heat', '/etc/heat') }}/api-paste.ini"
     config_overrides: "{{ heat_api_paste_ini_overrides }}"
     config_type: "ini"
-    condition: "{{ not ((heat_install_method == 'distro') and ((ansible_os_family | lower) == 'redhat')) }}"
+    condition: "{{ not ((heat_install_method == 'distro') and ((ansible_facts['os_family'] | lower) == 'redhat')) }}"
   - tmp_f: "/tmp/default.yaml"
     target_f: "/etc/heat/environment.d/default.yaml"
     config_overrides: "{{ heat_default_yaml_overrides }}"
