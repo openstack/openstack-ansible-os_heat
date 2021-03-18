@@ -22,3 +22,12 @@
   with_items: "{{ filtered_heat_services }}"
   listen:
     - "venv changed"
+
+# NOTE (noonedeadpunk): Remove this task after Xena release
+- name: Remove obsoleted policy.json
+  file:
+    path: "/etc/heat/policy.json"
+    state: absent
+  listen:
+    - "Restart heat services"
+    - "venv changed"
