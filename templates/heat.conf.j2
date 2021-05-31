@@ -24,7 +24,7 @@ auth_encryption_key = {{ heat_auth_encryption_key }}
 num_engine_workers = {{ heat_engine_workers | default(heat_api_threads) }}
 
 ## RPC Backend
-transport_url = {{ heat_oslomsg_rpc_transport }}://{% for host in heat_oslomsg_rpc_servers.split(',') %}{{ heat_oslomsg_rpc_userid }}:{{ heat_oslomsg_rpc_password }}@{{ host }}:{{ heat_oslomsg_rpc_port }}{% if not loop.last %},{% else %}/{{ heat_oslomsg_rpc_vhost }}{% if heat_oslomsg_rpc_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
+transport_url = {{ heat_oslomsg_rpc_transport }}://{% for host in heat_oslomsg_rpc_servers.split(',') %}{{ heat_oslomsg_rpc_userid }}:{{ heat_oslomsg_rpc_password }}@{{ host }}:{{ heat_oslomsg_rpc_port }}{% if not loop.last %},{% else %}/{{ heat_oslomsg_rpc_vhost }}{% if heat_oslomsg_rpc_use_ssl | bool %}?ssl=1&ssl_version={{ heat_oslomsg_rpc_ssl_version }}&ssl_ca_file={{ heat_oslomsg_rpc_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 ## Plugin dirs
 plugin_dirs = {{ heat_plugin_dirs | join(',') }}
@@ -70,7 +70,7 @@ enable_proxy_headers_parsing = True
 # Ceilometer options
 [oslo_messaging_notifications]
 driver = {{ (heat_ceilometer_enabled | bool) | ternary('messagingv2', 'noop') }}
-transport_url = {{ heat_oslomsg_notify_transport }}://{% for host in heat_oslomsg_notify_servers.split(',') %}{{ heat_oslomsg_notify_userid }}:{{ heat_oslomsg_notify_password }}@{{ host }}:{{ heat_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ heat_oslomsg_notify_vhost }}{% if heat_oslomsg_notify_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
+transport_url = {{ heat_oslomsg_notify_transport }}://{% for host in heat_oslomsg_notify_servers.split(',') %}{{ heat_oslomsg_notify_userid }}:{{ heat_oslomsg_notify_password }}@{{ host }}:{{ heat_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ heat_oslomsg_notify_vhost }}{% if heat_oslomsg_notify_use_ssl | bool %}?ssl=1&ssl_version={{ heat_oslomsg_notify_ssl_version }}&ssl_ca_file={{ heat_oslomsg_notify_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 
 [profiler]
