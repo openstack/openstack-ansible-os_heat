@@ -42,11 +42,13 @@
       - name: "{{ heat_service_user_name }}"
         role: "{{ heat_stack_owner_name }}"
         project: "{{ heat_service_project_name }}"
+        domain: "{{ heat_service_user_domain_id }}"
         # Any user creating stacks needs to have the 'heat_stack_owner' role assigned.
         # We add to admin user here for testing purposes.
       - name: "{{ keystone_admin_user_name }}"
         role: "{{ heat_stack_owner_name }}"
         project: "{{ heat_service_project_name }}"
+        domain: "{{ heat_service_user_domain_id }}"
       - name: "{{ heat_stack_domain_admin }}"
         password: "{{ heat_stack_domain_admin_password }}"
         domain: "{{ heat_stack_user_domain_name }}"
