@@ -207,7 +207,6 @@ heat_pip_packages:
   - osprofiler
   - PyMySQL
   - pymemcache
-  - python-ceilometerclient
   - python-glanceclient
   - python-heatclient
   - python-keystoneclient
