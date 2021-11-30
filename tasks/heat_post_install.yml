@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Drop heat Config(s)
-  config_template:
+  openstack.config_template.config_template:
     src: "heat.conf.j2"
     dest: "/etc/heat/heat.conf"
     owner: "root"
@@ -27,7 +27,7 @@
     - Restart uwsgi services
 
 - name: Implement policy.yaml if there are overrides configured
-  config_template:
+  openstack.config_template.config_template:
     content: "{{ heat_policy_overrides }}"
     dest: "/etc/heat/policy.yaml"
     owner: "root"
@@ -71,7 +71,7 @@
   with_items: "{{ heat_core_files }}"
 
 - name: Copy common config
-  config_template:
+  openstack.config_template.config_template:
     src: "{{ item.tmp_f }}"
     dest: "{{ item.target_f }}"
     owner: "root"
