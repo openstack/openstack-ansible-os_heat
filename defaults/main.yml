@@ -62,6 +62,10 @@ heat_galera_database: heat
 heat_galera_use_ssl: "{{ galera_use_ssl | default(False) }}"
 heat_galera_ssl_ca_cert: "{{ galera_ssl_ca_cert | default('') }}"
 heat_galera_port: "{{ galera_port | default('3306') }}"
+heat_db_max_overflow: "{{ openstack_db_max_overflow | default('50') }}"
+heat_db_max_pool_size: "{{ openstack_db_max_pool_size | default('5') }}"
+heat_db_pool_timeout: "{{ openstack_db_pool_timeout | default('30') }}"
+heat_db_connection_recycle_time: "{{ openstack_db_connection_recycle_time | default('600') }}"
 
 ## Oslo Messaging Info
 # RPC
