@@ -19,7 +19,12 @@
 # is to another host, we assume that it is accessible by the
 # system python instead.
 
-- include_tasks: service_setup.yml
+- include_role:
+    name: openstack.osa.service_setup
+    apply:
+      tags:
+        - common-service
+        - heat-config
   vars:
     _domain_name: "{{ heat_stack_user_domain_name }}"
     _domain_name_description: "{{ heat_stack_domain_description }}"
@@ -81,3 +86,5 @@
       - name: "{{ heat_cfn_service_name }}"
         type: "{{ heat_cfn_service_type }}"
         description: "{{ heat_cfn_service_description }}"
+  tags:
+    - always
