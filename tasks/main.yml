@@ -52,7 +52,12 @@
   tags:
     - always
 
-- import_tasks: db_setup.yml
+- include_role:
+    name: openstack.osa.db_setup
+    apply:
+      tags:
+        - common-db
+        - heat-config
   when:
     - "_heat_is_first_play_host"
   vars:
@@ -66,10 +71,14 @@
           - username: "{{ heat_galera_user }}"
             password: "{{ heat_container_mysql_password }}"
   tags:
-    - common-db
-    - heat-config
+    - always
 
-- import_tasks: mq_setup.yml
+- include_role:
+    name: openstack.osa.mq_setup
+    apply:
+      tags:
+        - common-mq
+        - heat-config
   when:
     - "_heat_is_first_play_host"
   vars:
@@ -84,8 +93,7 @@
     _oslomsg_notify_vhost: "{{ heat_oslomsg_notify_vhost }}"
     _oslomsg_notify_transport: "{{ heat_oslomsg_notify_transport }}"
   tags:
-    - common-mq
-    - heat-config
+    - always
 
 - import_tasks: heat_pre_install.yml
   tags:
