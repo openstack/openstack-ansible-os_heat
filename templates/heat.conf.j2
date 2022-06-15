@@ -94,6 +94,10 @@ username = {{ heat_service_user_name }}
 password = {{ heat_service_password }}
 region_name = {{ keystone_service_region }}
 
+service_token_roles_required = {{ heat_service_token_roles_required | bool }}
+service_token_roles = {{ heat_service_token_roles | join(',') }}
+service_type = {{ heat_service_type }}
+
 memcached_servers = {{ heat_memcached_servers }}
 
 token_cache_time = 300

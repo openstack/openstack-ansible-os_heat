@@ -130,7 +130,12 @@ heat_profiler_trace_sqlalchemy: false
 heat_service_region: "{{ service_region | default('RegionOne') }}"
 heat_service_project_name: "service"
 heat_service_user_name: "heat"
-heat_service_role_name: admin
+heat_service_role_names:
+  - admin
+  - service
+heat_service_token_roles:
+  - service
+heat_service_token_roles_required: "{{ openstack_service_token_roles_required | default(True) }}"
 heat_service_project_domain_id: default
 heat_service_user_domain_id: default
 heat_keystone_auth_plugin: password

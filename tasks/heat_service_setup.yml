@@ -41,7 +41,7 @@
         password: "{{ heat_service_password }}"
         domain: default
         project: "{{ heat_service_project_name }}"
-        role: "{{ heat_service_role_name }}"
+        role: "{{ heat_service_role_names }}"
         # We add the keystone role used by heat to delegate to the heat service user
         # for performing deferred operations via trusts.
       - name: "{{ heat_service_user_name }}"
