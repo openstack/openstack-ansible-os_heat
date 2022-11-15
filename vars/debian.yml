@@ -17,6 +17,7 @@
 cache_timeout: 600
 
 heat_distro_packages:
+  - git
   - rsync
   - libxslt1.1
   - libopenmpi-dev
