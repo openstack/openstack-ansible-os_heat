@@ -102,6 +102,26 @@
   tags:
     - heat-install
 
+- name: Create and install SSL certificates
+  include_role:
+    name: pki
+    tasks_from: main_certs.yml
+    apply:
+      tags:
+        - heat-config
+        - pki
+  vars:
+    pki_setup_host: "{{ heat_pki_setup_host }}"
+    pki_dir: "{{ heat_pki_dir }}"
+    pki_create_certificates: "{{ heat_user_ssl_cert is not defined and heat_user_ssl_key is not defined }}"
+    pki_regen_cert: "{{ heat_pki_regen_cert }}"
+    pki_certificates: "{{ heat_pki_certificates }}"
+    pki_install_certificates: "{{ heat_pki_install_certificates }}"
+  when:
+    - heat_backend_ssl
+  tags:
+    - always
+
 - import_tasks: heat_post_install.yml
   tags:
     - heat-config
