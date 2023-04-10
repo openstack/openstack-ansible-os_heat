@@ -22,4 +22,4 @@
   with_items: "{{ filtered_heat_services }}"
   listen:
     - "venv changed"
-  
+    - "systemd service changed"
