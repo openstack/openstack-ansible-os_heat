@@ -26,7 +26,11 @@ debug: False
 # for the service setup. The host must already have
 # clouds.yaml properly configured.
 heat_service_setup_host: "{{ openstack_service_setup_host | default('localhost') }}"
-heat_service_setup_host_python_interpreter: "{{ openstack_service_setup_host_python_interpreter | default((heat_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable'])) }}"
+heat_service_setup_host_python_interpreter: >-
+  {{
+    openstack_service_setup_host_python_interpreter | default(
+      (heat_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable']))
+  }}
 
 # Set the package install state for distribution packages
 # Options are 'present' and 'latest'
@@ -38,7 +42,8 @@ heat_venv_python_executable: "{{ openstack_venv_python_executable | default('pyt
 
 heat_git_repo: https://opendev.org/openstack/heat
 heat_git_install_branch: master
-heat_upper_constraints_url: "{{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}"
+heat_upper_constraints_url: >-
+  {{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}
 heat_git_constraints:
   - "--constraint {{ heat_upper_constraints_url }}"
 
@@ -55,7 +60,11 @@ heat_clients_heat_endpoint: publicURL
 
 ## Database info
 heat_db_setup_host: "{{ openstack_db_setup_host | default('localhost') }}"
-heat_db_setup_python_interpreter: "{{ openstack_db_setup_python_interpreter | default((heat_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable'])) }}"
+heat_db_setup_python_interpreter: >-
+  {{
+    openstack_db_setup_python_interpreter | default(
+      (heat_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable']))
+  }}
 heat_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 heat_galera_user: heat
 heat_galera_database: heat
@@ -192,7 +201,8 @@ heat_metadata_server_url: "{{ heat_cfn_service_publicuri_proto }}://{{ external_
 
 ## Cap the maximum number of threads / workers when a user value is unspecified.
 heat_api_threads_max: 16
-heat_api_threads: "{{ [[(ansible_facts['processor_vcpus']//ansible_facts['processor_threads_per_core'])|default(1), 1] | max * 2, heat_api_threads_max] | min }}"
+heat_api_threads: >-
+  {{ [[(ansible_facts['processor_vcpus'] // ansible_facts['processor_threads_per_core']) | default(1), 1] | max * 2, heat_api_threads_max] | min }}
 
 heat_service_in_ldap: "{{ service_ldap_backend_enabled | default(False) }}"
 
@@ -204,9 +214,9 @@ heat_plugin_dirs:
 ## Policy vars
 # Provide a list of access controls to update the default policy.json with. These changes will be merged
 # with the access controls in the default policy.json. E.g.
-#heat_policy_overrides:
-#  "cloudformation:ListStacks": "rule:deny_stack_user"
-#  "cloudformation:CreateStack": "rule:deny_stack_user"
+# heat_policy_overrides:
+#   "cloudformation:ListStacks": "rule:deny_stack_user"
+#   "cloudformation:CreateStack": "rule:deny_stack_user"
 
 # Common pip packages
 heat_pip_packages:
@@ -285,7 +295,7 @@ heat_required_secrets:
 heat_api_uwsgi_ini_overrides: {}
 heat_api_cfn_uwsgi_ini_overrides: {}
 heat_wsgi_processes_max: 16
-heat_wsgi_processes: "{{ [[ansible_facts['processor_vcpus']|default(1), 1] | max * 2, heat_wsgi_processes_max] | min }}"
+heat_wsgi_processes: "{{ [[ansible_facts['processor_vcpus'] | default(1), 1] | max * 2, heat_wsgi_processes_max] | min }}"
 heat_wsgi_threads: 1
 heat_api_uwsgi_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
 heat_api_cfn_uwsgi_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
@@ -346,5 +356,5 @@ heat_pki_install_certificates:
     mode: "0600"
 
 # Define user-provided SSL certificates
-#heat_user_ssl_cert: <path to cert on ansible deployment host>
-#heat_user_ssl_key: <path to cert on ansible deployment host>
+# heat_user_ssl_cert: <path to cert on ansible deployment host>
+# heat_user_ssl_key: <path to cert on ansible deployment host>

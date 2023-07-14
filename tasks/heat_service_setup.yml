@@ -19,7 +19,8 @@
 # is to another host, we assume that it is accessible by the
 # system python instead.
 
-- include_role:
+- name: Including osa.service_setup role
+  include_role:
     name: openstack.osa.service_setup
     apply:
       tags:

@@ -51,7 +51,8 @@
   tags:
     - always
 
-- include_role:
+- name: Including osa.db_setup role
+  include_role:
     name: openstack.osa.db_setup
     apply:
       tags:
@@ -72,7 +73,8 @@
   tags:
     - always
 
-- include_role:
+- name: Including osa.mq_setup role
+  include_role:
     name: openstack.osa.mq_setup
     apply:
       tags:
@@ -94,11 +96,13 @@
   tags:
     - always
 
-- import_tasks: heat_pre_install.yml
+- name: Importing heat_pre_install tasks
+  import_tasks: heat_pre_install.yml
   tags:
     - heat-install
 
-- import_tasks: heat_install.yml
+- name: Importing heat_install tasks
+  import_tasks: heat_install.yml
   tags:
     - heat-install
 
@@ -122,7 +126,8 @@
   tags:
     - always
 
-- import_tasks: heat_post_install.yml
+- name: Importing heat_post_install tasks
+  import_tasks: heat_post_install.yml
   tags:
     - heat-config
 
@@ -135,16 +140,17 @@
     systemd_tempd_prefix: openstack
     systemd_slice_name: heat
     systemd_lock_path: /var/lock/heat
-    systemd_CPUAccounting: true
-    systemd_BlockIOAccounting: true
-    systemd_MemoryAccounting: true
-    systemd_TasksAccounting: true
+    systemd_service_cpu_accounting: true
+    systemd_service_block_io_accounting: true
+    systemd_service_memory_accounting: true
+    systemd_service_tasks_accounting: true
     systemd_services: "{{ filtered_heat_services }}"
   tags:
     - heat-config
     - systemd-service
 
-- import_tasks: heat_db_sync.yml
+- name: Importing heat_db_sync tasks
+  import_tasks: heat_db_sync.yml
   when:
     - "_heat_is_first_play_host"
   tags:
@@ -160,7 +166,8 @@
     - heat-config
     - uwsgi
 
-- import_tasks: heat_service_setup.yml
+- name: Importing heat_service_setup tasks
+  import_tasks: heat_service_setup.yml
   when:
     - "_heat_is_first_play_host"
   tags:

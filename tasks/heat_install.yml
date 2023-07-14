@@ -19,6 +19,7 @@
     section: "heat"
     option: "install_method"
     value: "{{ heat_install_method }}"
+    mode: "0644"
 
 - name: Refresh local facts to ensure the heat section is present
   setup:

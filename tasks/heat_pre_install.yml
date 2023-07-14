@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: create the system group
+- name: Create the system group
   group:
     name: "{{ heat_system_group_name }}"
     state: "present"
@@ -56,8 +56,8 @@
     src: "{{ item.src | default(omit) }}"
     dest: "{{ item.dest | default(omit) }}"
     state: "{{ item.state | default('directory') }}"
-    owner: "{{ item.owner|default(heat_system_user_name) }}"
-    group: "{{ item.group|default(heat_system_group_name) }}"
+    owner: "{{ item.owner | default(heat_system_user_name) }}"
+    group: "{{ item.group | default(heat_system_group_name) }}"
     mode: "{{ item.mode | default(omit) }}"
     force: "{{ item.force | default(omit) }}"
   when:
@@ -91,5 +91,5 @@
     state: directory
     owner: "{{ heat_system_user_name }}"
     group: "{{ heat_system_group_name }}"
-    mode: "{{ item.mode|default('0755') }}"
+    mode: "{{ item.mode | default('0755') }}"
   with_items: "{{ heat_plugin_dirs }}"
