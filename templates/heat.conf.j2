@@ -47,7 +47,7 @@ endpoint_type = {{ heat_clients_endpoint }}
 auth_uri = {{ keystone_service_internaluri }}
 
 [database]
-connection = mysql+pymysql://{{ heat_galera_user }}:{{ heat_container_mysql_password }}@{{ heat_galera_address }}/{{ heat_galera_database }}?charset=utf8{% if heat_galera_use_ssl | bool %}&ssl_verify_cert=true{% if heat_galera_ssl_ca_cert | length > 0 %}&ssl_ca={{ heat_galera_ssl_ca_cert }}{% endif %}{% endif +%}
+connection = mysql+pymysql://{{ heat_galera_user }}:{{ heat_container_mysql_password }}@{{ heat_galera_address }}:{{ heat_galera_port }}/{{ heat_galera_database }}?charset=utf8{% if heat_galera_use_ssl | bool %}&ssl_verify_cert=true{% if heat_galera_ssl_ca_cert | length > 0 %}&ssl_ca={{ heat_galera_ssl_ca_cert }}{% endif %}{% endif +%}
 max_overflow = {{ heat_db_max_overflow }}
 max_pool_size = {{ heat_db_max_pool_size }}
 pool_timeout = {{ heat_db_pool_timeout }}
