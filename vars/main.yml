@@ -19,6 +19,18 @@ _heat_is_first_play_host: >-
       groups[heat_services['heat-api']['group']] | intersect(ansible_play_hosts)) | first) | bool
   }}
 
+_heat_oslomsg_rpc_vhost_conf: >-
+  {{
+    (heat_oslomsg_rpc_vhost is string) | ternary(
+      heat_oslomsg_rpc_vhost, heat_oslomsg_rpc_vhost | selectattr('state', 'eq', 'present') | map(attribute='name') | first)
+  }}
+
+_heat_oslomsg_notify_vhost_conf: >-
+  {{
+    (heat_oslomsg_notify_vhost is string) | ternary(
+      heat_oslomsg_notify_vhost, heat_oslomsg_notify_vhost | selectattr('state', 'eq', 'present') | map(attribute='name') | first)
+  }}
+
 #
 # Compile a list of the services on a host based on whether
 # the host is in the host group and the service is enabled.

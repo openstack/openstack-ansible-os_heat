@@ -85,7 +85,12 @@ heat_oslomsg_rpc_servers: "{{ oslomsg_rpc_servers | default('127.0.0.1') }}"
 heat_oslomsg_rpc_port: "{{ oslomsg_rpc_port | default('5672') }}"
 heat_oslomsg_rpc_use_ssl: "{{ oslomsg_rpc_use_ssl | default(False) }}"
 heat_oslomsg_rpc_userid: heat
-heat_oslomsg_rpc_vhost: /heat
+heat_oslomsg_rpc_vhost:
+  - name: /heat
+    state: "{{ heat_oslomsg_rabbit_quorum_queues | ternary('absent', 'present') }}"
+  - name: heat
+    state: "{{ heat_oslomsg_rabbit_quorum_queues | ternary('present', 'absent') }}"
+
 heat_oslomsg_rpc_ssl_version: "{{ oslomsg_rpc_ssl_version | default('TLSv1_2') }}"
 heat_oslomsg_rpc_ssl_ca_file: "{{ oslomsg_rpc_ssl_ca_file | default('') }}"
 
@@ -101,6 +106,11 @@ heat_oslomsg_notify_password: "{{ heat_oslomsg_rpc_password }}"
 heat_oslomsg_notify_vhost: "{{ heat_oslomsg_rpc_vhost }}"
 heat_oslomsg_notify_ssl_version: "{{ oslomsg_notify_ssl_version | default('TLSv1_2') }}"
 heat_oslomsg_notify_ssl_ca_file: "{{ oslomsg_notify_ssl_ca_file | default('') }}"
+
+## RabbitMQ integration
+heat_oslomsg_rabbit_quorum_queues: "{{ oslomsg_rabbit_quorum_queues | default(True) }}"
+heat_oslomsg_rabbit_quorum_delivery_limit: "{{ oslomsg_rabbit_quorum_delivery_limit | default(0) }}"
+heat_oslomsg_rabbit_quorum_max_memory_bytes: "{{ oslomsg_rabbit_quorum_max_memory_bytes | default(0) }}"
 
 ## (Qdrouterd) integration
 # TODO(ansmith): Change structure when more backends will be supported
