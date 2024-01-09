@@ -135,7 +135,6 @@ heat_stack_domain_description: Owns users and projects created by heat
 heat_stack_user_domain_name: heat
 heat_max_nested_stack_depth: 5
 
-heat_deferred_auth_method: trusts
 heat_trusts_delegated_roles: []
 
 ## Cinder backups
