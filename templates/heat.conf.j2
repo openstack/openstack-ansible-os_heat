@@ -75,7 +75,7 @@ enable_proxy_headers_parsing = True
 
 # Ceilometer options
 [oslo_messaging_notifications]
-driver = {{ (heat_ceilometer_enabled | bool) | ternary('messagingv2', 'noop') }}
+driver = {{ (heat_oslomsg_notify_configure | bool) | ternary('messagingv2', 'noop') }}
 transport_url = {{ heat_oslomsg_notify_transport }}://{% for host in heat_oslomsg_notify_servers.split(',') %}{{ heat_oslomsg_notify_userid }}:{{ heat_oslomsg_notify_password }}@{{ host }}:{{ heat_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ _heat_oslomsg_notify_vhost_conf }}{% if heat_oslomsg_notify_use_ssl | bool %}?ssl=1&ssl_version={{ heat_oslomsg_notify_ssl_version }}&ssl_ca_file={{ heat_oslomsg_notify_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 

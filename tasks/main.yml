@@ -95,6 +95,7 @@
     _oslomsg_notify_vhost: "{{ heat_oslomsg_notify_vhost }}"
     _oslomsg_notify_transport: "{{ heat_oslomsg_notify_transport }}"
     _oslomsg_notify_policies: "{{ heat_oslomsg_notify_policies }}"
+    _oslomsg_notify_configure: "{{ heat_oslomsg_notify_configure }}"
   tags:
     - always
 
