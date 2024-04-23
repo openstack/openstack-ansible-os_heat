@@ -85,6 +85,7 @@ heat_oslomsg_rpc_servers: "{{ oslomsg_rpc_servers | default('127.0.0.1') }}"
 heat_oslomsg_rpc_port: "{{ oslomsg_rpc_port | default('5672') }}"
 heat_oslomsg_rpc_use_ssl: "{{ oslomsg_rpc_use_ssl | default(False) }}"
 heat_oslomsg_rpc_userid: heat
+heat_oslomsg_rpc_policies: []
 heat_oslomsg_rpc_vhost:
   - name: /heat
     state: "{{ heat_oslomsg_rabbit_quorum_queues | ternary('absent', 'present') }}"
@@ -106,6 +107,7 @@ heat_oslomsg_notify_password: "{{ heat_oslomsg_rpc_password }}"
 heat_oslomsg_notify_vhost: "{{ heat_oslomsg_rpc_vhost }}"
 heat_oslomsg_notify_ssl_version: "{{ oslomsg_notify_ssl_version | default('TLSv1_2') }}"
 heat_oslomsg_notify_ssl_ca_file: "{{ oslomsg_notify_ssl_ca_file | default('') }}"
+heat_oslomsg_notify_policies: []
 
 ## RabbitMQ integration
 heat_oslomsg_rabbit_quorum_queues: "{{ oslomsg_rabbit_quorum_queues | default(True) }}"
