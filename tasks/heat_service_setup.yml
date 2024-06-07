@@ -61,14 +61,6 @@
         project:
         role: "{{ keystone_role_name | default('admin') }}"
       - role: heat_stack_user
-      # NOTE(noonedeadpunk): removal of role assignment below is for upgrade purposes only
-      #                      and should be removed in future releases
-      - name: "{{ keystone_admin_user_name | default('admin') }}"
-        project: "{{ heat_service_project_name }}"
-        domain: "{{ heat_service_user_domain_id }}"
-        role:
-          - name: "{{ heat_stack_owner_name }}"
-            state: absent
     _service_endpoints:
       - service: "{{ heat_service_name }}"
         interface: "public"
