@@ -16,7 +16,7 @@
 _heat_is_first_play_host: >-
   {{
     (heat_services['heat-api']['group'] in group_names and inventory_hostname == (
-      groups[heat_services['heat-api']['group']] | intersect(ansible_play_hosts)) | first) | bool
+      groups[heat_services['heat-api']['group']] | select('in', ansible_play_hosts)) | first) | bool
   }}
 
 _heat_oslomsg_rpc_vhost_conf: >-
