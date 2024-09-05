@@ -34,6 +34,9 @@ region_name_for_services = {{ heat_service_region }}
 default_software_config_transport = POLL_SERVER_HEAT
 default_deployment_signal_transport = HEAT_SIGNAL
 
+max_template_size = {{ heat_max_template_size }}
+max_json_body_size = {{ heat_max_json_body_size }}
+
 [clients]
 endpoint_type = {{ heat_clients_endpoint }}
 
