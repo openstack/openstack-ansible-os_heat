@@ -215,6 +215,10 @@ heat_metadata_server_url: "{{ heat_cfn_service_publicuri_proto }}://{{ external_
 # heat_engine_workers: 4
 # heat_api_workers: 4
 
+# Set to bugger values to be able to handle bigger templates (might be need for magnum especially)
+heat_max_template_size: 524288
+heat_max_json_body_size: 1048576
+
 ## Cap the maximum number of threads / workers when a user value is unspecified.
 heat_api_threads_max: 16
 heat_api_threads: >-
