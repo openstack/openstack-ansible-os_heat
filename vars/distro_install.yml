@@ -15,9 +15,6 @@
 
 heat_package_list: |-
   {% set packages = heat_service_distro_packages %}
-  {% if heat_oslomsg_amqp1_enabled | bool %}
-  {%   set _ = packages.extend(heat_oslomsg_amqp1_distro_packages) %}
-  {% endif %}
   {{ packages }}
 
 heat_bin: "/usr/bin"

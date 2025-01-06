@@ -30,8 +30,3 @@ heat_service_distro_packages:
   - openstack-heat-engine
   - openstack-heat-ui
   - python3-systemd
-
-heat_oslomsg_amqp1_distro_packages:
-  - cyrus-sasl-lib
-  - cyrus-sasl-plain
-  - cyrus-sasl-md5

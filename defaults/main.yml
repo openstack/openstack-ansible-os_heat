@@ -119,10 +119,6 @@ heat_oslomsg_rabbit_queue_manager: "{{ oslomsg_rabbit_queue_manager | default(he
 heat_oslomsg_rabbit_quorum_delivery_limit: "{{ oslomsg_rabbit_quorum_delivery_limit | default(0) }}"
 heat_oslomsg_rabbit_quorum_max_memory_bytes: "{{ oslomsg_rabbit_quorum_max_memory_bytes | default(0) }}"
 
-## (Qdrouterd) integration
-# TODO(ansmith): Change structure when more backends will be supported
-heat_oslomsg_amqp1_enabled: "{{ heat_oslomsg_rpc_transport == 'amqp' }}"
-
 ## Heat User / Group
 heat_system_user_name: heat
 heat_system_group_name: heat
@@ -258,9 +254,6 @@ heat_memcached_servers: "{{ memcached_servers }}"
 
 # Specific pip packages provided by the user
 heat_user_pip_packages: []
-
-heat_optional_oslomsg_amqp1_pip_packages:
-  - oslo.messaging[amqp1]
 
 heat_api_init_overrides: {}
 heat_api_cfn_init_overrides: {}
