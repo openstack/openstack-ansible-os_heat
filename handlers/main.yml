@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Restart heat services
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item.service_name }}"
     enabled: true
     state: "restarted"

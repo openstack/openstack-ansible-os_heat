@@ -40,7 +40,7 @@
     - heat-policy-override
 
 - name: Remove legacy policy.yaml file
-  file:
+  ansible.builtin.file:
     path: "/etc/heat/policy.yaml"
     state: absent
   when:
@@ -52,7 +52,7 @@
 #                  because we only want to copy the original files once. and we
 #                  don't want to need multiple tasks.
 - name: Preserve original configuration file(s)
-  command: "cp {{ item.target_f }} {{ item.target_f }}.original"
+  ansible.builtin.command: "cp {{ item.target_f }} {{ item.target_f }}.original"
   args:
     creates: "{{ item.target_f }}.original"
   when:
@@ -60,7 +60,7 @@
   with_items: "{{ heat_core_files }}"
 
 - name: Fetch override files
-  fetch:
+  ansible.builtin.fetch:
     src: "{{ item.target_f }}"
     dest: "{{ item.tmp_f }}"
     flat: true
@@ -87,7 +87,7 @@
     - Restart heat services
 
 - name: Cleanup fetched temp files
-  file:
+  ansible.builtin.file:
     path: "{{ item.tmp_f }}"
     state: absent
   changed_when: false

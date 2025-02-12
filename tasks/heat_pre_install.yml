@@ -14,13 +14,13 @@
 # limitations under the License.
 
 - name: Create the system group
-  group:
+  ansible.builtin.group:
     name: "{{ heat_system_group_name }}"
     state: "present"
     system: "yes"
 
 - name: Create the heat system user
-  user:
+  ansible.builtin.user:
     name: "{{ heat_system_user_name }}"
     group: "{{ heat_system_group_name }}"
     comment: "{{ heat_system_comment }}"
@@ -36,12 +36,12 @@
 - name: Source config block
   block:
     - name: Stat config directory
-      stat:
+      ansible.builtin.stat:
         path: "/etc/heat"
       register: heat_conf_dir_stat
 
     - name: Remove the config directory
-      file:
+      ansible.builtin.file:
         path: "/etc/heat"
         state: absent
       when:
@@ -51,7 +51,7 @@
     - heat_install_method == 'source'
 
 - name: Create heat dir
-  file:
+  ansible.builtin.file:
     path: "{{ item.path | default(omit) }}"
     src: "{{ item.src | default(omit) }}"
     dest: "{{ item.dest | default(omit) }}"
@@ -86,7 +86,7 @@
     - path: "{{ heat_system_home_folder }}"
 
 - name: Create heat plugin dirs
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ heat_system_user_name }}"

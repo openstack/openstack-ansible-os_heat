@@ -20,7 +20,7 @@
 # system python instead.
 
 - name: Including osa.service_setup role
-  include_role:
+  ansible.builtin.include_role:
     name: openstack.osa.service_setup
     apply:
       tags:
