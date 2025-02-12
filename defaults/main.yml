@@ -20,7 +20,7 @@
 heat_ceilometer_enabled: "{{ (groups['ceilometer_all'] is defined) and (groups['ceilometer_all'] | length > 0) }}"
 
 ## Verbosity Options
-debug: False
+debug: false
 
 # Set the host which will execute the shade modules
 # for the service setup. The host must already have
@@ -53,7 +53,7 @@ heat_pip_install_args: "{{ pip_install_options | default('') }}"
 heat_venv_tag: "{{ venv_tag | default('untagged') }}"
 heat_bin: "{{ _heat_bin }}"
 
-heat_fatal_deprecations: False
+heat_fatal_deprecations: false
 
 heat_clients_endpoint: internalURL
 heat_clients_heat_endpoint: publicURL
@@ -258,7 +258,6 @@ heat_user_pip_packages: []
 heat_api_init_overrides: {}
 heat_api_cfn_init_overrides: {}
 heat_engine_init_overrides: {}
-
 ## Service Name-Group Mapping
 heat_services:
   heat-api:
@@ -266,7 +265,7 @@ heat_services:
     service_name: heat-api
     init_config_overrides: "{{ heat_api_init_overrides }}"
     start_order: 2
-    wsgi_app: True
+    wsgi_app: true
     wsgi_name: heat-wsgi-api
     uwsgi_overrides: "{{ heat_api_uwsgi_ini_overrides }}"
     uwsgi_port: "{{ heat_service_port }}"
@@ -277,7 +276,7 @@ heat_services:
     service_name: heat-api-cfn
     init_config_overrides: "{{ heat_api_cfn_init_overrides }}"
     start_order: 3
-    wsgi_app: True
+    wsgi_app: true
     wsgi_name: heat-wsgi-api-cfn
     uwsgi_overrides: "{{ heat_api_cfn_uwsgi_ini_overrides }}"
     uwsgi_port: "{{ heat_cfn_service_port }}"
@@ -338,7 +337,7 @@ heat_pki_setup_host: "{{ openstack_pki_setup_host | default('localhost') }}"
 heat_pki_keys_path: "{{ heat_pki_dir ~ '/certs/private/' }}"
 heat_pki_certs_path: "{{ heat_pki_dir ~ '/certs/certs/' }}"
 heat_pki_intermediate_cert_name: "{{ openstack_pki_service_intermediate_cert_name | default('ExampleCorpIntermediate') }}"
-heat_pki_regen_cert: ''
+heat_pki_regen_cert: ""
 heat_pki_san: "{{ openstack_pki_san | default('DNS:' ~ ansible_facts['hostname'] ~ ',IP:' ~ management_address) }}"
 heat_pki_certificates:
   - name: "heat_{{ ansible_facts['hostname'] }}"

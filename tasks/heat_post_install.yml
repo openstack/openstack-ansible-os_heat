@@ -63,7 +63,7 @@
   fetch:
     src: "{{ item.target_f }}"
     dest: "{{ item.tmp_f }}"
-    flat: yes
+    flat: true
   changed_when: false
   run_once: true
   when:
