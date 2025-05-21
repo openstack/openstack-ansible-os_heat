@@ -66,7 +66,6 @@ heat_uwsgi_services: |-
          and ('wsgi_app' in value and value['wsgi_app']) %}
   {%     set _ = value.update(
             {
-             'wsgi_path':  heat_bin ~ '/' ~ value.wsgi_name,
              'wsgi_venv': ((heat_install_method == 'source') | ternary(heat_bin | dirname, None)),
              'uwsgi_uid': heat_system_user_name,
              'uwsgi_guid': heat_system_group_name,

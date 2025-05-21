@@ -266,7 +266,7 @@ heat_services:
     init_config_overrides: "{{ heat_api_init_overrides }}"
     start_order: 2
     wsgi_app: true
-    wsgi_name: heat-wsgi-api
+    wsgi: "heat.wsgi.api:application"
     uwsgi_overrides: "{{ heat_api_uwsgi_ini_overrides }}"
     uwsgi_port: "{{ heat_service_port }}"
     uwsgi_bind_address: "{{ heat_api_uwsgi_bind_address }}"
@@ -277,7 +277,7 @@ heat_services:
     init_config_overrides: "{{ heat_api_cfn_init_overrides }}"
     start_order: 3
     wsgi_app: true
-    wsgi_name: heat-wsgi-api-cfn
+    wsgi: "heat.wsgi.cfn:application"
     uwsgi_overrides: "{{ heat_api_cfn_uwsgi_ini_overrides }}"
     uwsgi_port: "{{ heat_cfn_service_port }}"
     uwsgi_bind_address: "{{ heat_api_cfn_uwsgi_bind_address }}"
