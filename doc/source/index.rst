@@ -2,11 +2,8 @@
 Heat role for OpenStack-Ansible
 ===============================
 
-
 Dependencies
 ~~~~~~~~~~~~
-
-This role needs pip >= 7.1 installed on the target host.
 
 To use this role, define the following variables:
 
@@ -30,7 +27,7 @@ To use this role, define the following variables:
     keystone_auth_admin_password: "secrete"
 
 To clone or view the source code for this repository, visit the role repository
-for `os_heat <https://github.com/openstack/openstack-ansible-os_heat>`_.
+for `os_heat <https://opendev.org/openstack/openstack-ansible-os_heat>`_.
 
 Default variables
 ~~~~~~~~~~~~~~~~~
@@ -38,6 +35,41 @@ Default variables
 .. literalinclude:: ../../defaults/main.yml
    :language: yaml
    :start-after: under the License.
+
+Adding The Service to Your OpenStack-Ansible Deployment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To add a new service to your OpenStack-Ansible (OSA) deployment:
+
+* Define ``orchestration_hosts`` in your ``conf.d`` or
+  ``openstack_user_config.yml``. For example:
+
+  .. code-block:: yaml
+
+      orchestration_hosts:
+        infra1:
+          ip: 172.20.236.111
+        infra2:
+          ip: 172.20.236.112
+        infra3:
+          ip: 172.20.236.113
+
+* Create respective LXC containers (skip this step for metal deployments):
+
+  .. code-block:: console
+
+     openstack-ansible openstack.osa.containers_lxc_create --limit heat_all,orchestration_hosts
+
+* Run service deployment playbook:
+
+  .. code-block:: console
+
+     openstack-ansible openstack.osa.heat
+
+For more information, please refer to the `OpenStack-Ansible project documentation <https://docs.openstack.org/project-deploy-guide/openstack-ansible/latest/>`_.
+
+Always verify that the integration is successful and that the service behaves
+correctly before using it in a production environment.
 
 Example playbook
 ~~~~~~~~~~~~~~~~
