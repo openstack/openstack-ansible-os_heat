@@ -26,7 +26,7 @@
     - Restart heat services
     - Restart uwsgi services
 
-- name: Implement policy.yaml if there are overrides configured
+- name: Implement policy.yaml file
   openstack.config_template.config_template:
     content: "{{ heat_policy_overrides }}"
     dest: "/etc/heat/policy.yaml"
@@ -34,17 +34,6 @@
     group: "{{ heat_system_group_name }}"
     mode: "0640"
     config_type: yaml
-  when:
-    - heat_policy_overrides | length > 0
-  tags:
-    - heat-policy-override
-
-- name: Remove legacy policy.yaml file
-  ansible.builtin.file:
-    path: "/etc/heat/policy.yaml"
-    state: absent
-  when:
-    - heat_policy_overrides | length == 0
   tags:
     - heat-policy-override
 
