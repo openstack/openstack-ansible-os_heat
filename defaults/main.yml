@@ -334,16 +334,18 @@ heat_pki_dir: "{{ openstack_pki_dir | default('/etc/openstack_deploy/pki') }}"
 heat_pki_setup_host: "{{ openstack_pki_setup_host | default('localhost') }}"
 
 # heat server certificate
+heat_pki_backend: "{{ openstack_pki_backend | default('standalone') }}"
 heat_pki_keys_path: "{{ heat_pki_dir ~ '/certs/private/' }}"
 heat_pki_certs_path: "{{ heat_pki_dir ~ '/certs/certs/' }}"
 heat_pki_intermediate_cert_name: "{{ openstack_pki_service_intermediate_cert_name | default('ExampleCorpIntermediate') }}"
 heat_pki_regen_cert: ""
-heat_pki_san: "{{ openstack_pki_san | default('DNS:' ~ ansible_facts['hostname'] ~ ',IP:' ~ management_address) }}"
+heat_pki_san: "{{ openstack_pki_san | default({'dns': [ansible_facts['hostname']], 'ip': [management_address]}) }}"
 heat_pki_certificates:
   - name: "heat_{{ ansible_facts['hostname'] }}"
-    provider: ownca
     cn: "{{ ansible_facts['hostname'] }}"
     san: "{{ heat_pki_san }}"
+    # standalone backend only
+    provider: ownca
     signed_by: "{{ heat_pki_intermediate_cert_name }}"
 
 # heat destination files for SSL certificates
@@ -352,17 +354,21 @@ heat_ssl_key: /etc/heat/heat.key
 
 # Installation details for SSL certificates
 heat_pki_install_certificates:
-  - src: "{{ heat_user_ssl_cert | default(heat_pki_certs_path ~ 'heat_' ~ ansible_facts['hostname'] ~ '-chain.crt') }}"
+  - name: "heat_{{ ansible_facts['hostname'] }}"
+    type: "certificate_chain"
     dest: "{{ heat_ssl_cert }}"
     owner: "{{ heat_system_user_name }}"
     group: "{{ heat_system_user_name }}"
-    mode: "0644"
-  - src: "{{ heat_user_ssl_key | default(heat_pki_keys_path ~ 'heat_' ~ ansible_facts['hostname'] ~ '.key.pem') }}"
+    # standalone backend only
+    src: "{{ heat_user_ssl_cert | default(heat_pki_certs_path ~ 'heat_' ~ ansible_facts['hostname'] ~ '-chain.crt') }}"
+  - name: "heat_{{ ansible_facts['hostname'] }}"
+    type: "private_key"
     dest: "{{ heat_ssl_key }}"
     owner: "{{ heat_system_user_name }}"
     group: "{{ heat_system_user_name }}"
-    mode: "0600"
+    # standalone backend only
+    src: "{{ heat_user_ssl_key | default(heat_pki_keys_path ~ 'heat_' ~ ansible_facts['hostname'] ~ '.key.pem') }}"
 
 # Define user-provided SSL certificates
-# heat_user_ssl_cert: <path to cert on ansible deployment host>
-# heat_user_ssl_key: <path to cert on ansible deployment host>
+heat_user_ssl_cert: ""
+heat_user_ssl_key: ""
