@@ -209,7 +209,6 @@ heat_metadata_server_url: "{{ heat_cfn_service_publicuri_proto }}://{{ external_
 
 # If the following variables are unset in user_variables, the value set will be half the number of available VCPUs
 # heat_engine_workers: 4
-# heat_api_workers: 4
 
 ## Cap the maximum number of threads / workers when a user value is unspecified.
 heat_api_threads_max: 16
