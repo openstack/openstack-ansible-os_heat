@@ -65,13 +65,6 @@ region_name = {{ keystone_service_region }}
 auth_uri = {{ keystone_service_internaluri }}
 valid_interfaces = {{ heat_clients_endpoint }}
 
-[heat_api]
-bind_port = {{ heat_service_port }}
-workers = {{ heat_api_workers | default(heat_api_threads) }}
-
-[heat_api_cfn]
-bind_port = {{ heat_cfn_service_port }}
-
 [oslo_messaging_rabbit]
 ssl = {{ heat_oslomsg_rpc_use_ssl }}
 rabbit_quorum_queue = {{ heat_oslomsg_rabbit_quorum_queues }}
