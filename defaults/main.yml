@@ -55,8 +55,8 @@ heat_bin: "{{ _heat_bin }}"
 
 heat_fatal_deprecations: false
 
-heat_clients_endpoint: internalURL
-heat_clients_heat_endpoint: publicURL
+heat_clients_endpoint: internal
+heat_clients_heat_endpoint: public
 
 ## Database info
 heat_db_setup_host: "{{ openstack_db_setup_host | default('localhost') }}"
