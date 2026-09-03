@@ -232,7 +232,7 @@ heat_plugin_dirs:
 # Common pip packages
 heat_pip_packages:
   - cryptography
-  - "git+{{ heat_git_repo }}@{{ heat_git_install_branch }}#egg=openstack-heat"
+  - "openstack-heat@git+{{ heat_git_repo }}@{{ heat_git_install_branch }}"
   - keystonemiddleware
   - osprofiler
   - PyMySQL
