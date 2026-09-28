@@ -223,11 +223,13 @@ heat_plugin_dirs:
   - /usr/local/lib/heat
 
 ## Policy vars
-# Provide a list of access controls to update the default policy.json with. These changes will be merged
-# with the access controls in the default policy.json. E.g.
+# Provide a list of access controls to update the default policy.yaml with. These changes will be merged
+# with the access controls in the default policy.yaml. E.g.
 # heat_policy_overrides:
-#   "cloudformation:ListStacks": "rule:deny_stack_user"
-#   "cloudformation:CreateStack": "rule:deny_stack_user"
+#   create_stack: "(role:member and project_id:%(project_id)s) or role:admin"
+#   update_stack: "(role:member and project_id:%(project_id)s) or role:admin"
+#   delete_stack: "(role:member and project_id:%(project_id)s) or role:admin"
+heat_policy_overrides: {}
 
 # Common pip packages
 heat_pip_packages:
@@ -316,7 +318,6 @@ heat_api_paste_ini_overrides: {}
 heat_default_yaml_overrides: {}
 heat_aws_cloudwatch_alarm_yaml_overrides: {}
 heat_aws_rds_dbinstance_yaml_overrides: {}
-heat_policy_overrides: {}
 
 ###
 ### Backend TLS
